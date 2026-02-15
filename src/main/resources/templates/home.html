@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+
+<head>
+    <title>Kalasetu - Handcrafted Local Art</title>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Handcrafted Art from the Heart of the Community</h1>
+            <p>Every piece tells a story. Support local artisans and bring home something truly unique.</p>
+            <div style="display: flex; gap: 1rem;">
+                <a th:href="@{/store}" class="btn">Explore Collection</a>
+                <a href="#" class="btn"
+                    style="background-color: transparent; color: var(--text-color); border: 1px solid var(--text-color);">Join
+                    as Artist</a>
+            </div>
+        </section>
+
+        <!-- Mission / Features -->
+        <section class="container">
+            <div class="features">
+                <div class="feature-item">
+                    <span class="feature-icon">✦</span>
+                    <h3>Authentic</h3>
+                    <p>Direct from the artisan's hands to your home. No mass production.</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">♥</span>
+                    <p>Empower local creators and help sustain traditional craftsmanship.</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">♻</span>
+                    <h3>Sustainable</h3>
+                    <p>Eco-friendly materials and ethical production processes.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="testimonials">
+            <h2 class="section-title">Community Voices</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p>"I found the perfect custom mug for my morning coffee. Knowing who made it makes it so much more
+                        special."</p>
+                    <p style="margin-top: 1rem; font-weight: bold; font-style: normal;">- Sarah M.</p>
+                </div>
+                <div class="testimonial-card">
+                    <p>"The commission process was so smooth. The artist understood exactly what I wanted for my wall
+                        hanging."</p>
+                    <p style="margin-top: 1rem; font-weight: bold; font-style: normal;">- David K.</p>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Kalasetu is a gem. Finally, a place to find real, authentic local art without the gallery
+                        markup."</p>
+                    <p style="margin-top: 1rem; font-weight: bold; font-style: normal;">- Priya R.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Collection -->
+        <section class="container" style="margin-bottom: 4rem; text-align: center;">
+            <p style="font-size: 1.5rem; color: var(--text-color); margin-bottom: 2rem;">Ready to find something
+                special?</p>
+            <a th:href="@{/store}" class="btn">Explore Full Collection</a>
+        </section>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+
+<head>
+    <title>Artist Dashboard - Kalasetu</title>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+
+        <h1 th:text="${'Commissions for ' + artist.name}" style="margin-bottom: 2rem;">Commissions</h1>
+
+        <div th:if="${param.success}"
+            style="background-color: #d4edda; color: #155724; padding: 1rem; border-radius: var(--border-radius); margin-bottom: 2rem;">
+            Commission request submitted successfully! This is what the artist sees.
+        </div>
+
+        <div style="overflow-x: auto;">
+            <table
+                style="width: 100%; border-collapse: collapse; background-color: var(--surface-color); border-radius: var(--border-radius); overflow: hidden; box-shadow: var(--box-shadow);">
+                <thead style="background-color: var(--accent-color); color: white;">
+                    <tr>
+                        <th style="padding: 1rem; text-align: left;">Requester</th>
+                        <th style="padding: 1rem; text-align: left;">Contact</th>
+                        <th style="padding: 1rem; text-align: left; width: 40%;">Details</th>
+                        <th style="padding: 1rem; text-align: left;">Budget</th>
+                        <th style="padding: 1rem; text-align: left;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="comm : ${commissions}" style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 1rem; vertical-align: top;" th:text="${comm.requesterName}">Name</td>
+                        <td style="padding: 1rem; vertical-align: top;" th:text="${comm.requesterContact}">Contact</td>
+                        <td style="padding: 1rem; vertical-align: top;" th:text="${comm.message}">Message</td>
+                        <td style="padding: 1rem; vertical-align: top; font-weight: bold;"
+                            th:text="${'$' + comm.offeredBudget}">Budget</td>
+                        <td style="padding: 1rem; vertical-align: top;">
+                            <span th:text="${comm.status}"
+                                style="padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600; background-color: #fff3cd; color: #856404; display: inline-block;">Status</span>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(commissions)}">
+                        <td colspan="5" style="padding: 2rem; text-align: center; color: #777;">No commissions found.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin-top: 2rem;">
+            <a href="/" class="btn" style="background-color: var(--text-color);">Back to Store</a>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

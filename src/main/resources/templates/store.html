@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+
+<head>
+    <title>Store - Kalasetu</title>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+
+        <h1 class="section-title">Our Collection</h1>
+
+        <!-- Product Grid -->
+        <div class="product-grid"
+            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
+            <!-- Product Card -->
+            <div th:each="product : ${products}" class="card">
+                <div
+                    style="height: 250px; background-color: #eee; border-radius: 4px; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; color: #999;">
+                    [Product Image]
+                </div>
+
+                <h3 th:text="${product.name}" style="margin-bottom: 0.5rem; font-size: 1.25rem;">Product Name</h3>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <p style="margin: 0; font-size: 0.9rem; color: #666;">
+                        by <span th:text="${product.artist.name}"
+                            style="font-weight: 600; color: var(--text-color);">Artist</span>
+                    </p>
+                    <p class="price" th:text="${'$' + product.price}"
+                        style="margin: 0; font-weight: bold; color: var(--pop-color); font-size: 1.1rem;">$0.00</p>
+                </div>
+
+                <div
+                    style="display: flex; justify-content: space-between; padding-top: 1rem; border-top: 1px solid #eee;">
+                    <a th:href="@{/products/{id}(id=${product.id})}" style="font-weight: 500; font-size: 0.9rem;">View
+                        Details</a>
+                    <a th:href="@{/commission/request/{id}(id=${product.artist.id})}"
+                        style="color: var(--accent-color); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Request
+                        Custom</a>
+                </div>
+            </div>
+
+            <div th:if="${#lists.isEmpty(products)}" style="grid-column: 1 / -1; text-align: center; color: #777;">
+                <p>No products found in the collection yet. Check back soon!</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

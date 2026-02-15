@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalasetu - Handcrafted Local Art</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Local CSS -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">Kalasetu</a>
+                <div class="nav-links">
+                    <a href="/">Store</a>
+                    <a href="#">Artists</a>
+                    <a href="#">About</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="min-height: 80vh; padding-top: 2rem;">
+        <!-- Content will be injected here -->
+        <div layout:fragment="content"></div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Kalasetu. Connecting artisans with the world.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>
