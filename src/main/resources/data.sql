@@ -1,22 +1,25 @@
 INSERT INTO site_user (name, email, password, role) VALUES ('Jane Collector', 'jane@collector.com', 'password', 'CUSTOMER');
 INSERT INTO site_user (name, email, password, role) VALUES ('Anya Sharma', 'anya@artisan.com', 'password', 'ARTIST');
 INSERT INTO site_user (name, email, password, role) VALUES ('Benji K.', 'benji@artisan.com', 'password', 'ARTIST');
+INSERT INTO site_user (name, email, password, role) VALUES ('Arun Verma', 'arun@artisan.com', 'password', 'ARTIST');
+INSERT INTO site_user (name, email, password, role) VALUES ('Sara Martinez', 'sara@artisan.com', 'password', 'ARTIST');
 
 INSERT INTO category (id, name) VALUES (1, 'Pottery');
 INSERT INTO category (id, name) VALUES (2, 'Textiles');
 INSERT INTO category (id, name) VALUES (3, 'Canvas Art');
 INSERT INTO category (id, name) VALUES (4, 'Woodwork');
 INSERT INTO category (id, name) VALUES (5, 'Jewelry');
+INSERT INTO category (id, name) VALUES (6, 'Digital Art');
 
 INSERT INTO artist (id, name, bio, email) VALUES (1, 'Anya Sharma', 'Ceramicist inspired by nature.', 'anya@artisan.com');
 INSERT INTO artist (id, name, bio, email) VALUES (2, 'Benji K.', 'Weaving traditional patterns with modern twist.', 'benji@artisan.com');
-INSERT INTO artist (id, name, bio, email) VALUES (3, 'Ramesh T.', 'Passionate about vibrant mountain landscapes.', 'ramesh@artisan.com');
-INSERT INTO artist (id, name, bio, email) VALUES (4, 'Sarah M.', 'Minimalist wooden sculptures and functional art.', 'sarah@artisan.com');
+INSERT INTO artist (id, name, bio, email) VALUES (3, 'Arun Verma', 'Ceramic Sculptor & Potter', 'arun@artisan.com');
+INSERT INTO artist (id, name, bio, email) VALUES (4, 'Sara Martinez', 'Digital Canvas Illustrator', 'sara@artisan.com');
 
 INSERT INTO product (id, name, description, price, image_url, image_hash, artist_id, category_id) VALUES (1, 'Blue Glaze Mug', 'Hand-thrown stoneware mug.', 25.00, '/images/blue glaze ug.jpg', null, 1, 1);
 INSERT INTO product (id, name, description, price, image_url, image_hash, artist_id, category_id) VALUES (2, 'Woven Wall Hanging', 'Wool and cotton tapestry.', 120.00, '/images/woven wall hanging.jpg', null, 2, 2);
-INSERT INTO product (id, name, description, price, image_url, image_hash, artist_id, category_id) VALUES (3, 'Mountain Landscape Painting', 'Original oil on canvas.', 180.00, '/images/mountain landscape painting.jpg', null, 3, 3);
-INSERT INTO product (id, name, description, price, image_url, image_hash, artist_id, category_id) VALUES (4, 'Hand-Carved Walnut Bowl', 'Organic shape, food-safe finish.', 85.00, '/images/hand carved walnut bowl.jpg', null, 4, 4);
+INSERT INTO product (id, name, description, price, image_url, image_hash, artist_id, category_id) VALUES (3, 'Teracotta Sculpture', 'Hand-thrown clay sculpture.', 180.00, '/images/mountain landscape painting.jpg', null, 3, 1);
+INSERT INTO product (id, name, description, price, image_url, image_hash, artist_id, category_id) VALUES (4, 'Digital Dreamscape', 'High-res digital canvas print.', 85.00, '/images/hand carved walnut bowl.jpg', null, 4, 6);
 INSERT INTO product (id, name, description, price, image_url, image_hash, artist_id, category_id) VALUES (5, 'Terracotta Vase', 'Rustic clay vase for dried flowers.', 45.00, '/images/teracotta vase.jpg', null, 1, 1);
 INSERT INTO product (id, name, description, price, image_url, image_hash, artist_id, category_id) VALUES (6, 'Geometric Brass Earrings', 'Hand-cut recycled brass.', 35.00, '/images/geometric brass earisgns.jpg', null, 2, 5);
 

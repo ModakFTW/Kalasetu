@@ -58,6 +58,11 @@ public class StorefrontController {
         return "redirect:/store?orderSuccess";
     }
 
+    @GetMapping("/our-story")
+    public String ourStory(Model model) {
+        return "our-story";
+    }
+
     @GetMapping("/artists")
     public String artists(Model model) {
         model.addAttribute("artists", artistRepository.findAll());

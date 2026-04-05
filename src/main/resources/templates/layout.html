@@ -17,14 +17,13 @@
     <header>
         <div class="container">
             <nav>
-                <a th:href="@{/}" class="logo" style="display: flex; align-items: center; gap: 0.5rem;">
-                    <img th:src="@{/images/kalasetu logo final.png}" alt="KalaSetu Logo" style="height: 40px; border-radius: 4px;" />
-                    KalaSetu
+                <a th:href="@{/}" class="logo" style="display: flex; align-items: center; justify-content: center;">
+                    <img th:src="@{/images/kalasetu logo final.png}" alt="KalaSetu Logo" style="height: 60px; border-radius: 4px;" />
                 </a>
                 <div class="nav-links">
                     <a th:href="@{/store}">Explore Canvas</a>
                     <a th:href="@{/artists}">Meet Artisans</a>
-                    <a href="#">Our Story</a>
+                    <a th:href="@{/our-story}">Our Story</a>
                 </div>
                 <div class="nav-actions" th:if="${session.user == null}">
                     <a th:href="@{/login}" class="btn" style="padding: 0.5rem 1.5rem; font-size: 0.95rem;">Join</a>
