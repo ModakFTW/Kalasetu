@@ -2,55 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
 
 <head>
-    <title>Request Commission - Kalasetu</title>
+    <title>Request Commission | KalaSetu</title>
 </head>
 
 <body>
 
-    <div layout:fragment="content" style="max-width: 600px; margin: 0 auto;">
+    <div layout:fragment="content" style="display: flex; justify-content: center; align-items: flex-start; min-height: 70vh; margin-top: var(--spacing-lg);">
 
-        <div class="card" style="padding: 2rem;">
-            <h1 style="text-align: center; margin-bottom: 0.5rem;">Commission Request</h1>
-            <p style="text-align: center; color: var(--text-color); margin-bottom: 2rem;">
-                Send a custom request to <strong th:text="${artist.name}">Artist Name</strong>
-            </p>
+        <div style="background: white; padding: var(--spacing-lg); border-radius: var(--border-radius-lg); box-shadow: var(--shadow-soft); width: 100%; max-width: 600px;">
+            <div style="text-align: center; margin-bottom: var(--spacing-md);">
+                <h1 class="font-serif" style="font-size: 2.5rem; margin-bottom: 0.5rem;">Commission Request</h1>
+                <p style="color: var(--on-surface-variant);">
+                    Send a custom artwork request to <strong th:text="${artist.name}" style="color: var(--on-surface);">Artist Name</strong>
+                </p>
+            </div>
 
-            <form th:action="@{/commission/request}" method="post" th:object="${commission}">
+            <form th:action="@{/commission/request}" method="post" th:object="${commission}" style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
                 <input type="hidden" name="artistId" th:value="${artist.id}" />
 
-                <div style="margin-bottom: 1.5rem;">
-                    <label for="requesterName" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Your
-                        Name</label>
-                    <input type="text" id="requesterName" th:field="*{requesterName}" required
-                        placeholder="e.g. Alex Doe" />
+                <div style="display: flex; gap: var(--spacing-sm);">
+                    <div style="flex: 1;">
+                        <label for="requesterName" style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Your Name</label>
+                        <input type="text" id="requesterName" th:field="*{requesterName}" required placeholder="e.g. Alex Doe" />
+                    </div>
+                    <div style="flex: 1;">
+                        <label for="offeredBudget" style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Your Budget ($)</label>
+                        <input type="number" step="0.01" id="offeredBudget" th:field="*{offeredBudget}" placeholder="0.00" />
+                    </div>
                 </div>
 
-                <div style="margin-bottom: 1.5rem;">
-                    <label for="requesterContact"
-                        style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Contact Info</label>
-                    <input type="text" id="requesterContact" th:field="*{requesterContact}" required
-                        placeholder="Email or Phone number" />
-                    <small style="color: #666;">So the artist can reach you.</small>
+                <div>
+                    <label for="requesterContact" style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Contact Info <span style="font-weight: 400; color: var(--outline); font-size: 0.8rem;">(Email or Phone)</span></label>
+                    <input type="text" id="requesterContact" th:field="*{requesterContact}" required placeholder="collector@example.com" />
                 </div>
 
-                <div style="margin-bottom: 1.5rem;">
-                    <label for="offeredBudget" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Your
-                        Budget ($)</label>
-                    <input type="number" step="0.01" id="offeredBudget" th:field="*{offeredBudget}"
-                        placeholder="0.00" />
+                <div>
+                    <label for="message" style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">What would you like?</label>
+                    <textarea id="message" th:field="*{message}" rows="5" required placeholder="Describe your vision, dimensions, colors, materials..."></textarea>
                 </div>
 
-                <div style="margin-bottom: 2rem;">
-                    <label for="message" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">What would you
-                        like?</label>
-                    <textarea id="message" th:field="*{message}" rows="6" required
-                        placeholder="Describe your vision, size, colors, materials..."></textarea>
-                </div>
-
-                <div style="display: flex; gap: 1rem;">
-                    <button type="submit" class="btn" style="flex: 2;">Send Request</button>
-                    <a href="/" class="btn"
-                        style="flex: 1; background-color: var(--surface-color); color: var(--text-color); border: 1px solid var(--accent-color); text-align: center;">Cancel</a>
+                <div style="display: flex; gap: var(--spacing-sm); margin-top: var(--spacing-sm);">
+                    <button type="submit" class="btn" style="flex: 2;"><span class="material-symbols-outlined" style="margin-right: 0.5rem;">send</span> Send Request</button>
+                    <a th:href="@{/artists}" class="btn btn-outline" style="flex: 1; text-align: center;">Cancel</a>
                 </div>
             </form>
         </div>

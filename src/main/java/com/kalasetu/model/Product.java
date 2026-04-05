@@ -14,6 +14,7 @@ public class Product {
     private String name;
     private String description;
     private Double price;
+    private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "artist_id")
@@ -29,13 +30,22 @@ public class Product {
     @Column(name = "attribute_value")
     private Map<String, String> attributes = new HashMap<>();
 
+    /**
+     * Perceptual hash (pHash) of the product image.
+     * Computed by ImageProtectionService at upload time.
+     * Used to detect visually duplicate images across the catalog.
+     */
+    private String imageHash;
+
+
     public Product() {
     }
 
-    public Product(String name, String description, Double price, Artist artist, Category category) {
+    public Product(String name, String description, Double price, String imageUrl, Artist artist, Category category) {
         this.name = name;
         this.description = description;
         this.price = price;
+        this.imageUrl = imageUrl;
         this.artist = artist;
         this.category = category;
     }
@@ -72,6 +82,14 @@ public class Product {
         this.price = price;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public Artist getArtist() {
         return artist;
     }
@@ -95,4 +113,7 @@ public class Product {
     public void setAttributes(Map<String, String> attributes) {
         this.attributes = attributes;
     }
+
+    public String getImageHash() { return imageHash; }
+    public void setImageHash(String imageHash) { this.imageHash = imageHash; }
 }

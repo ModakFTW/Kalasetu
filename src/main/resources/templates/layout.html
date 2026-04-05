@@ -4,17 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalasetu - Handcrafted Local Art</title>
+    <title>KalaSetu | The Digital Curator</title>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@400;700&display=swap"
-        rel="stylesheet">
-
-    <!-- Local CSS -->
+    <!-- Local CSS (Premium Artisan Theme) -->
     <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <!-- Google Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 
 <body>
@@ -22,24 +17,52 @@
     <header>
         <div class="container">
             <nav>
-                <a href="/" class="logo">Kalasetu</a>
+                <a th:href="@{/}" class="logo" style="display: flex; align-items: center; gap: 0.5rem;">
+                    <img th:src="@{/images/kalasetu logo final.png}" alt="KalaSetu Logo" style="height: 40px; border-radius: 4px;" />
+                    KalaSetu
+                </a>
                 <div class="nav-links">
-                    <a href="/">Store</a>
-                    <a href="#">Artists</a>
-                    <a href="#">About</a>
+                    <a th:href="@{/store}">Explore Canvas</a>
+                    <a th:href="@{/artists}">Meet Artisans</a>
+                    <a href="#">Our Story</a>
+                </div>
+                <div class="nav-actions" th:if="${session.user == null}">
+                    <a th:href="@{/login}" class="btn" style="padding: 0.5rem 1.5rem; font-size: 0.95rem;">Join</a>
+                </div>
+                <div class="nav-actions" th:if="${session.user != null}" style="display: flex; align-items: center; gap: 1rem;">
+                    <span style="font-weight: 600; font-size: 0.9rem; color: var(--on-surface-variant);" th:text="${'Welcome, ' + session.user.name}"></span>
+                    
+                    <!-- If artist, connect to dashboard -->
+                    <a th:if="${session.user.role.name() == 'ARTIST' && session.artistId != null}" th:href="@{/commission/artist/{id}(id=${session.artistId})}" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Dashboard</a>
+                    
+                    <a th:href="@{/logout}" class="btn" style="padding: 0.5rem 1rem; font-size: 0.85rem; background: var(--secondary);">Logout</a>
                 </div>
             </nav>
         </div>
     </header>
 
-    <main class="container" style="min-height: 80vh; padding-top: 2rem;">
+    <main class="container" style="min-height: 80vh;">
         <!-- Content will be injected here -->
         <div layout:fragment="content"></div>
     </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Kalasetu. Connecting artisans with the world.</p>
+    <footer class="legal-footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <h3 class="font-serif">KalaSetu</h3>
+                <p>Connecting local artisans with the world.<br>The Digital Curator.</p>
+            </div>
+            
+            <div class="footer-legal-notice">
+                <strong>Copyright & Authenticity Notice:</strong><br>
+                All artwork images, product designs, and media displayed on KalaSetu are the exclusive copyrighted property of their respective artisans and creators. 
+                Unauthorized reproduction, downloading, mapping, or redistribution of these images is strictly prohibited by law. 
+                When you buy from KalaSetu, you are supporting original art directly from the craftsman's hands.
+            </div>
+        </div>
+        
+        <div class="container footer-bottom">
+            <p>&copy; 2026 KalaSetu Platform & Marketplace. All rights reserved.</p>
         </div>
     </footer>
 

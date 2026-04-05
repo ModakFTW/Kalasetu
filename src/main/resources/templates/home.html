@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
 
 <head>
-    <title>Kalasetu - Handcrafted Local Art</title>
+    <title>KalaSetu | Handcrafted Artisan Marketplace</title>
 </head>
 
 <body>
@@ -11,63 +11,84 @@
 
         <!-- Hero Section -->
         <section class="hero">
-            <h1>Handcrafted Art from the Heart of the Community</h1>
-            <p>Every piece tells a story. Support local artisans and bring home something truly unique.</p>
-            <div style="display: flex; gap: 1rem;">
-                <a th:href="@{/store}" class="btn">Explore Collection</a>
-                <a href="#" class="btn"
-                    style="background-color: transparent; color: var(--text-color); border: 1px solid var(--text-color);">Join
-                    as Artist</a>
+            <div class="hero-content">
+                <h1 class="font-serif">Handcrafted Art from the Heart of the Community.</h1>
+                <p>Every piece tells a story. Support local artisans and bring home something truly unique, curated for the modern connoisseur.</p>
+                <div class="btn-group">
+                    <a th:href="@{/store}" class="btn">Explore Collection</a>
+                    <a href="#" class="btn btn-outline">Join as Artist</a>
+                </div>
+            </div>
+            
+            <div class="hero-image-wrapper">
+                <img th:src="@{/images/artisan molding clay in studio.webp}" alt="Artisan molding clay in studio" />
             </div>
         </section>
 
-        <!-- Mission / Features -->
-        <section class="container">
-            <div class="features">
-                <div class="feature-item">
-                    <span class="feature-icon">✦</span>
-                    <h3>Authentic</h3>
-                    <p>Direct from the artisan's hands to your home. No mass production.</p>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">♥</span>
-                    <p>Empower local creators and help sustain traditional craftsmanship.</p>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-icon">♻</span>
-                    <h3>Sustainable</h3>
-                    <p>Eco-friendly materials and ethical production processes.</p>
+        <!-- Mission / Features Pillars -->
+        <section class="features-section">
+            <div class="container">
+                <h2 class="page-title font-serif">Our Curatorial Pillars</h2>
+                <div class="features">
+                    <div class="feature-item">
+                        <div class="feature-icon"><span class="material-symbols-outlined">handshake</span></div>
+                        <h3 class="font-serif">Authentic</h3>
+                        <p>Direct from hands to home. We ensure every item is verified for its regional heritage and individual craftsmanship.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><span class="material-symbols-outlined">auto_awesome</span></div>
+                        <h3 class="font-serif">Empowering</h3>
+                        <p>Sustain traditional craftsmanship by providing global reach to remote village masters and local makers.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><span class="material-symbols-outlined">eco</span></div>
+                        <h3 class="font-serif">Sustainable</h3>
+                        <p>Eco-friendly materials and ethical production cycles. Beauty that respects the environment and its creators.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Testimonials -->
-        <section class="testimonials">
-            <h2 class="section-title">Community Voices</h2>
-            <div class="testimonial-grid">
-                <div class="testimonial-card">
-                    <p>"I found the perfect custom mug for my morning coffee. Knowing who made it makes it so much more
-                        special."</p>
-                    <p style="margin-top: 1rem; font-weight: bold; font-style: normal;">- Sarah M.</p>
+        <section style="margin: var(--spacing-xl) 0;">
+            <div style="text-align: center; margin-bottom: var(--spacing-md);">
+                <span style="color: var(--primary); font-weight: bold; text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem;">Testimonials</span>
+                <h2 class="font-serif">Voices from our Global Community.</h2>
+            </div>
+            
+            <div class="features">
+                <div class="feature-item" style="text-align: left; position: relative;">
+                    <span class="material-symbols-outlined" style="color: var(--primary-container); font-size: 3rem; opacity: 0.2; position: absolute; top: -10px; left: -10px;">format_quote</span>
+                    <p style="font-style: italic; font-size: 1.1rem; margin-bottom: 1.5rem; position: relative; z-index: 1;">"Shopping here feels like walking through a boutique gallery. The storytelling behind every artisan makes the purchase so meaningful."</p>
+                    <div>
+                        <strong style="color: var(--primary);">Sophia K.</strong>
+                        <p style="font-size: 0.85rem; color: var(--secondary); font-weight: 600;">Art Consultant</p>
+                    </div>
                 </div>
-                <div class="testimonial-card">
-                    <p>"The commission process was so smooth. The artist understood exactly what I wanted for my wall
-                        hanging."</p>
-                    <p style="margin-top: 1rem; font-weight: bold; font-style: normal;">- David K.</p>
+                <div class="feature-item" style="text-align: left; position: relative;">
+                    <span class="material-symbols-outlined" style="color: var(--primary-container); font-size: 3rem; opacity: 0.2; position: absolute; top: -10px; left: -10px;">format_quote</span>
+                    <p style="font-style: italic; font-size: 1.1rem; margin-bottom: 1.5rem; position: relative; z-index: 1;">"The ceramic set I received is more than kitchenware; it's a conversation piece. You can feel the artisan's fingerprints in the clay."</p>
+                    <div>
+                        <strong style="color: var(--primary);">Elena R.</strong>
+                        <p style="font-size: 0.85rem; color: var(--secondary); font-weight: 600;">Interior Architect</p>
+                    </div>
                 </div>
-                <div class="testimonial-card">
-                    <p>"Kalasetu is a gem. Finally, a place to find real, authentic local art without the gallery
-                        markup."</p>
-                    <p style="margin-top: 1rem; font-weight: bold; font-style: normal;">- Priya R.</p>
+                <div class="feature-item" style="text-align: left; position: relative;">
+                    <span class="material-symbols-outlined" style="color: var(--primary-container); font-size: 3rem; opacity: 0.2; position: absolute; top: -10px; left: -10px;">format_quote</span>
+                    <p style="font-style: italic; font-size: 1.1rem; margin-bottom: 1.5rem; position: relative; z-index: 1;">"KalaSetu has connected me with weavers from villages I've only read about. The quality of the hand-spun silk is unmatched."</p>
+                    <div>
+                        <strong style="color: var(--primary);">Julian M.</strong>
+                        <p style="font-size: 0.85rem; color: var(--secondary); font-weight: 600;">Textile Collector</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Product Collection -->
-        <section class="container" style="margin-bottom: 4rem; text-align: center;">
-            <p style="font-size: 1.5rem; color: var(--text-color); margin-bottom: 2rem;">Ready to find something
-                special?</p>
-            <a th:href="@{/store}" class="btn">Explore Full Collection</a>
+        <!-- Final CTA -->
+        <section style="background: linear-gradient(135deg, var(--secondary), #364233); padding: var(--spacing-lg); border-radius: var(--border-radius-lg); text-align: center; color: white; margin-bottom: var(--spacing-lg);">
+            <h2 class="font-serif" style="color: white; font-size: 3rem; margin-bottom: 1rem;">Ready to find something special?</h2>
+            <p style="color: rgba(255,255,255,0.8); font-size: 1.2rem; margin-bottom: 2rem;">Step into our digital gallery and discover pieces that define your space and soul.</p>
+            <a th:href="@{/store}" class="btn" style="background: white; color: var(--secondary);">Visit the Storefront</a>
         </section>
 
     </div>

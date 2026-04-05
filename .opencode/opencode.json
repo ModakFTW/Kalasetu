@@ -1,0 +1,10 @@
+{
+  "permission": {
+    "read": {
+      "C:/Users/atacc/Desktop/kalasetu/.opencode/get-shit-done/*": "allow"
+    },
+    "external_directory": {
+      "C:/Users/atacc/Desktop/kalasetu/.opencode/get-shit-done/*": "allow"
+    }
+  }
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+
+<head>
+    <title th:text="${artist.name + ' | KalaSetu'}">Artist Profile</title>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+        
+        <div style="text-align: center; margin-bottom: var(--spacing-xl);">
+            <div style="width: 150px; height: 150px; border-radius: 50%; background: var(--surface-low); margin: 0 auto var(--spacing-md); display: flex; justify-content: center; align-items: center; border: 3px solid var(--primary-container);">
+                <span class="material-symbols-outlined" style="font-size: 4rem; color: var(--primary);">person</span>
+            </div>
+            <h1 class="page-title font-serif" th:text="${artist.name}" style="margin-bottom: 0.5rem;">Artist Name</h1>
+            <p style="color: var(--on-surface-variant); max-width: 700px; margin: 0 auto var(--spacing-lg); font-size: 1.1rem; line-height: 1.6;" th:text="${artist.bio}">
+                Artist biography goes here.
+            </p>
+            <a th:href="@{/commission/request/{id}(id=${artist.id})}" class="btn btn-primary" style="font-size: 1.1rem; padding: 0.75rem 2rem;">
+                <span class="material-symbols-outlined" style="margin-right: 0.5rem; vertical-align: middle;">draw</span> Request Custom Commission
+            </a>
+        </div>
+
+        <h2 class="font-serif" style="border-bottom: 1px solid var(--outline-variant); padding-bottom: 0.5rem; margin-bottom: var(--spacing-lg);">Catalog</h2>
+
+        <div class="store-grid">
+            <div th:each="product : ${products}" class="product-card">
+                <a th:href="@{/product/{id}(id=${product.id})}">
+                    <img th:src="@{/images/protected/{id}(id=${product.id})}" alt="Product Image" style="width: 100%; height: 250px; object-fit: cover; background: var(--surface-low);">
+                </a>
+                <div style="padding: var(--spacing-md);">
+                    <h3 class="font-serif" style="margin-bottom: 0.5rem;">
+                        <a th:href="@{/product/{id}(id=${product.id})}" th:text="${product.name}" style="color: inherit; text-decoration: none;">Product Name</a>
+                    </h3>
+                    <p style="color: var(--on-surface-variant); margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" th:text="${product.description}">Product Description</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
+                        <span style="font-weight: bold; color: var(--primary); font-size: 1.2rem;" th:text="${'$' + product.price}">$0.00</span>
+                        <a th:href="@{/checkout(productId=${product.id})}" class="btn btn-primary" style="padding: 0.5rem 1rem;">Buy</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div th:if="${#lists.isEmpty(products)}" style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--outline);">
+                <span class="material-symbols-outlined" style="font-size: 4rem; opacity: 0.5; margin-bottom: 1rem; display: block;">inventory_2</span>
+                <p style="font-size: 1.2rem;">This artist has not uploaded any products yet.</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -2,54 +2,94 @@
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
 
 <head>
-    <title>Artist Dashboard - Kalasetu</title>
+    <title>Artist Dashboard | KalaSetu</title>
 </head>
 
 <body>
 
     <div layout:fragment="content">
 
-        <h1 th:text="${'Commissions for ' + artist.name}" style="margin-bottom: 2rem;">Commissions</h1>
+        <h1 class="page-title font-serif" th:text="${'Commissions for ' + artist.name}">Commissions</h1>
 
-        <div th:if="${param.success}"
-            style="background-color: #d4edda; color: #155724; padding: 1rem; border-radius: var(--border-radius); margin-bottom: 2rem;">
-            Commission request submitted successfully! This is what the artist sees.
+        <div th:if="${param.success}" style="background-color: var(--secondary); color: white; padding: 1rem; border-radius: var(--border-radius); margin-bottom: var(--spacing-md); text-align: center; box-shadow: var(--shadow-soft);">
+            <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 0.5rem;">check_circle</span> 
+            Commission request submitted successfully!
         </div>
 
-        <div style="overflow-x: auto;">
-            <table
-                style="width: 100%; border-collapse: collapse; background-color: var(--surface-color); border-radius: var(--border-radius); overflow: hidden; box-shadow: var(--box-shadow);">
-                <thead style="background-color: var(--accent-color); color: white;">
+        <div style="background: white; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-soft); overflow: hidden;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead style="background-color: var(--surface-low); border-bottom: 2px solid var(--surface-container);">
                     <tr>
-                        <th style="padding: 1rem; text-align: left;">Requester</th>
-                        <th style="padding: 1rem; text-align: left;">Contact</th>
-                        <th style="padding: 1rem; text-align: left; width: 40%;">Details</th>
-                        <th style="padding: 1rem; text-align: left;">Budget</th>
-                        <th style="padding: 1rem; text-align: left;">Status</th>
+                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Requester</th>
+                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Contact</th>
+                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600; width: 40%;">Details</th>
+                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Budget</th>
+                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="comm : ${commissions}" style="border-bottom: 1px solid #eee;">
-                        <td style="padding: 1rem; vertical-align: top;" th:text="${comm.requesterName}">Name</td>
+                    <tr th:each="comm : ${commissions}" style="border-bottom: 1px solid var(--surface-container); transition: background 0.3s;">
+                        <td style="padding: 1rem; vertical-align: top; font-weight: 600;" th:text="${comm.requesterName}">Name</td>
                         <td style="padding: 1rem; vertical-align: top;" th:text="${comm.requesterContact}">Contact</td>
-                        <td style="padding: 1rem; vertical-align: top;" th:text="${comm.message}">Message</td>
-                        <td style="padding: 1rem; vertical-align: top; font-weight: bold;"
-                            th:text="${'$' + comm.offeredBudget}">Budget</td>
+                        <td style="padding: 1rem; vertical-align: top; color: var(--on-surface-variant);" th:text="${comm.message}">Message</td>
+                        <td style="padding: 1rem; vertical-align: top; font-weight: bold; color: var(--primary);" th:text="${'$' + comm.offeredBudget}">Budget</td>
                         <td style="padding: 1rem; vertical-align: top;">
-                            <span th:text="${comm.status}"
-                                style="padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600; background-color: #fff3cd; color: #856404; display: inline-block;">Status</span>
+                            <span th:text="${comm.status}" style="padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600; background-color: var(--surface-low); color: var(--secondary); border: 1px solid rgba(83, 99, 79, 0.2); display: inline-block;">Status</span>
                         </td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(commissions)}">
-                        <td colspan="5" style="padding: 2rem; text-align: center; color: #777;">No commissions found.
+                        <td colspan="5" style="padding: 3rem; text-align: center; color: var(--outline);">
+                            <span class="material-symbols-outlined" style="font-size: 3rem; opacity: 0.5; display: block; margin-bottom: 1rem;">inbox</span>
+                            No commissions found.
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <div style="margin-top: 2rem;">
-            <a href="/" class="btn" style="background-color: var(--text-color);">Back to Store</a>
+        <div style="margin-top: var(--spacing-xl);">
+            <h2 class="font-serif page-title" style="text-align: left; font-size: 1.8rem;">Upload New Product</h2>
+            
+            <div th:if="${param.success == 'product_uploaded'}" style="background-color: var(--secondary); color: white; padding: 1rem; border-radius: var(--border-radius); margin-bottom: var(--spacing-md); text-align: center; box-shadow: var(--shadow-soft);">
+                <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 0.5rem;">check_circle</span> 
+                Product added to your catalog successfully!
+            </div>
+            <div th:if="${param.error == 'upload_failed'}" style="background-color: var(--error, #ba1a1a); color: white; padding: 1rem; border-radius: var(--border-radius); margin-bottom: var(--spacing-md); text-align: center; box-shadow: var(--shadow-soft);">
+                <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 0.5rem;">error</span> 
+                Failed to upload the product image. Please try again.
+            </div>
+
+            <form th:action="@{/artist/{id}/product/upload(id=${artist.id})}" method="post" enctype="multipart/form-data" class="form-container" style="max-width: 800px; margin: 0; background: white; padding: var(--spacing-lg); border-radius: var(--border-radius-lg); box-shadow: var(--shadow-soft);">
+                
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="name" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Product Name</label>
+                    <input type="text" id="name" name="name" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--outline-variant); border-radius: var(--border-radius);">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="price" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Price ($)</label>
+                    <input type="number" id="price" name="price" step="0.01" min="0" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--outline-variant); border-radius: var(--border-radius);">
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="description" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Description</label>
+                    <textarea id="description" name="description" rows="4" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--outline-variant); border-radius: var(--border-radius); font-family: inherit;"></textarea>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 2rem;">
+                    <label for="image" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Product Image</label>
+                    <input type="file" id="image" name="image" accept="image/png, image/jpeg, image/webp" required style="width: 100%; padding: 0.75rem; border: 1px dashed var(--outline); border-radius: var(--border-radius); background: var(--surface-low);">
+                    <small style="color: var(--on-surface-variant); display: block; margin-top: 0.5rem;">Supported formats: JPEG, PNG, WEBP. Max size: 5MB.</small>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <span class="material-symbols-outlined" style="margin-right: 0.5rem; vertical-align: middle;">upload</span> Add to Catalog
+                </button>
+            </form>
+        </div>
+
+        <div style="margin-top: var(--spacing-lg); text-align: left;">
+            <a th:href="@{/store}" class="btn btn-outline"><span class="material-symbols-outlined" style="margin-right: 0.5rem;">arrow_back</span> Back to Store</a>
         </div>
 
     </div>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+
+<head>
+    <title>Error | KalaSetu</title>
+</head>
+
+<body>
+    <div layout:fragment="content" style="display: flex; justify-content: center; align-items: center; min-height: 60vh; text-align: center; flex-direction: column; gap: var(--spacing-md);">
+        <span class="material-symbols-outlined" style="font-size: 5rem; color: var(--primary); opacity: 0.6;">sentiment_dissatisfied</span>
+        <h1 class="font-serif" th:text="'Error ' + ${errorCode}" style="font-size: 3rem; margin: 0;">Error</h1>
+        <p style="color: var(--on-surface-variant); font-size: 1.1rem; max-width: 480px;" th:text="${errorMessage}">Something went wrong.</p>
+        <div style="display: flex; gap: 1rem; margin-top: var(--spacing-sm);">
+            <a th:href="@{/}" class="btn btn-outline">Go Home</a>
+            <a th:href="@{/store}" class="btn">Browse Store</a>
+        </div>
+    </div>
+</body>
+
+</html>

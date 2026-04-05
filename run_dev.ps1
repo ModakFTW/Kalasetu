@@ -1,3 +1,4 @@
+
 $ErrorActionPreference = "Stop"
 
 # Paths to portable tools installed by the assistant
@@ -17,5 +18,18 @@ if (!(Test-Path $mavenPath)) {
 $env:JAVA_HOME = $javaPath
 $env:PATH = "$mavenPath\bin;$env:JAVA_HOME\bin;$env:PATH"
 
+Write-Host "Checking for existing server on port 8080..."
+$processHoldingPort = Get-NetTCPConnection -LocalPort 8080 -ErrorAction SilentlyContinue
+if ($processHoldingPort) {
+    $pidToKill = $processHoldingPort.OwningProcess | Select-Object -Unique
+    foreach ($p in $pidToKill) {
+        if ($p -ne 0 -and $p -ne 4) {
+            Write-Host "Port 8080 is blocked by process $p. Terminating it to allow restart..."
+            Stop-Process -Id $p -Force -ErrorAction SilentlyContinue
+        }
+    }
+    Start-Sleep -Seconds 2
+}
+
 Write-Host "Starting Kalasetu with Java 17 and Maven..."
-mvn spring-boot:run
+mvn clean spring-boot:run

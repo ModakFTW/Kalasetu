@@ -1,50 +1,132 @@
-# Kalasetu - Local Art Store
+# KalaSetu — The Digital Curator
 
-A Spring Boot monolithic e-commerce application for local artists.
+> A full-stack artisan marketplace connecting local craftspeople with collectors worldwide.
 
-## Prerequisites
+Built with **Java 17 · Spring Boot 3 · Thymeleaf · H2 Database · Vanilla CSS**
 
--   Java 17 or higher
--   Maven 3.8+ (ensure `mvn` is in your PATH)
+---
 
-## Setup
+## Overview
 
-1.  **Clone/Download** the project.
-2.  **Navigate** to the project directory:
-    ```bash
-    cd kalasetu
-    ```
+KalaSetu is a monolithic e-commerce platform designed to authentically represent and sell the work of local artisans. It features a complete user identity system with two distinct account types, a commission request workflow, an IP theft reporting engine, and a curated product storefront.
+
+---
+
+## Features
+
+### 🛍️ Storefront & Commerce
+- Browse the curated product catalog at `/store`
+- Product detail pages with artisan attribution, specs, and attributes
+- Full checkout flow with mock payment processing
+- "Order Confirmed" notification banner on successful purchase
+
+### 👤 Authentication & Identity
+- **Customer accounts** — browse and purchase artisan products
+- **Artist accounts** — manage a personal portfolio and receive commission requests
+- Session-based login / logout tied to user role
+- `/register` — Role-selection form (Customer or Artist) with auto-provisioning:
+  - Registering as an Artist instantly creates a linked `Artist` portfolio entity
+
+### 🎨 Artist Dashboard & Commissions
+- Artists log in and are directed straight to their personal commission dashboard
+- Collectors can browse the Artist directory at `/artists` and submit commission requests
+- Dashboard displays incoming requests with status (REQUESTED / ACCEPTED / DECLINED / COMPLETED)
+
+### 🛡️ IP Theft & Moderation
+- Every product detail page includes a **"Report IP Theft / Duplicate"** form
+- Reports are logged to a backend `ItemReport` table with timestamps and reasons
+- Products are **automatically hidden from the storefront** once they accumulate **10 or more community reports**
+- Flagged products are removed from the public grid without deleting underlying data
+
+---
+
+## Demo Accounts
+
+| Role     | Email                  | Password  |
+|----------|------------------------|-----------|
+| Customer | `jane@collector.com`   | `password` |
+| Artist   | `anya@artisan.com`     | `password` |
+| Artist   | `benji@artisan.com`    | `password` |
+
+---
 
 ## Running the Application
 
-### Option 1: Using the Helper Script (Recommended)
-If you don't have Java 17 or Maven installed globally, run the provided script:
+### Recommended (no global Java/Maven needed)
 ```powershell
 .\run_dev.ps1
 ```
 
-### Option 2: Using Global Maven
-If you have `mvn` and Java 17+ installed:
+### Alternative (if `mvn` and Java 17 are globally installed)
 ```bash
 mvn spring-boot:run
 ```
 
-The application will start on `http://localhost:8080`.
+App starts at **http://localhost:8080**
 
-## Features
+---
 
--   **Storefront**: Browse products by local artists.
--   **Product Details**: View flexible product attributes (dimensions, materials, etc.).
--   **H2 Database**: In-memory database for rapid development.
-    -   Console: `http://localhost:8080/h2-console`
-    -   JDBC URL: `jdbc:h2:mem:testdb`
-    -   User: `sa`
-    -   Password: `password`
+## H2 Database Console
+
+| Property | Value                     |
+|----------|---------------------------|
+| URL      | `http://localhost:8080/h2-console` |
+| JDBC URL | `jdbc:h2:mem:testdb`      |
+| User     | `sa`                      |
+| Password | `password`                |
+
+---
 
 ## Project Structure
 
--   `src/main/java/com/kalasetu/model`: Entity classes (Artist, Category, Product).
--   `src/main/java/com/kalasetu/controller`: Web controllers.
--   `src/main/resources/templates`: Thymeleaf HTML templates.
--   `src/main/resources/data.sql`: Initial seed data.
-"# Kalasetu" 
+```
+src/main/java/com/kalasetu/
+├── model/
+│   ├── Artist.java           # Artisan entity (name, bio, email, catalog)
+│   ├── Category.java         # Product categorisation
+│   ├── Commission.java       # Commission request entity
+│   ├── ItemReport.java       # IP theft report log
+│   ├── Product.java          # Product entity (with hidden flag)
+│   ├── User.java             # Platform user (email, password, role)
+│   └── UserRole.java         # Enum: CUSTOMER | ARTIST
+│
+├── repository/
+│   ├── ArtistRepository.java
+│   ├── CategoryRepository.java
+│   ├── CommissionRepository.java
+│   ├── ItemReportRepository.java
+│   ├── ProductRepository.java
+│   └── UserRepository.java
+│
+└── controller/
+    ├── AuthController.java         # /login, /register, /logout
+    ├── CommissionController.java   # /commission/** (submit & dashboard)
+    ├── ReportController.java       # /report/product (IP flagging)
+    └── StorefrontController.java   # /, /store, /product/{id}, /checkout, /artists
+
+src/main/resources/
+├── templates/
+│   ├── layout.html             # Global header/footer/nav shell
+│   ├── home.html               # Landing page
+│   ├── store.html              # Product grid
+│   ├── product-detail.html     # Individual product + report form
+│   ├── checkout.html           # Checkout form
+│   ├── login.html              # Login page
+│   ├── register.html           # Registration with role selector
+│   ├── artists.html            # Artisan directory
+│   ├── commission-form.html    # Commission request form
+│   └── artist-commissions.html # Artist dashboard
+├── static/
+│   ├── css/style.css           # Artisan Heritage design system
+│   └── images/                 # Locally hosted product & logo images
+├── data.sql                    # Seed data (users, artists, products)
+└── application.properties
+```
+
+---
+
+## Legal
+
+All artwork images and product designs displayed on KalaSetu are the exclusive copyrighted property of their respective artisans. Unauthorised reproduction or redistribution is strictly prohibited.
+
+© 2026 KalaSetu Platform & Marketplace. All rights reserved.
