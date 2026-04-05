@@ -1,22 +1,37 @@
-
 $ErrorActionPreference = "Stop"
 
-# Paths to portable tools installed by the assistant
-$toolsDir = "C:\Users\atacc\.gemini\antigravity\brain\566d4e59-70ae-4bca-baaa-004ad4757b84"
-$javaPath = "$toolsDir\jdk-17.0.2"
-$mavenPath = "$toolsDir\apache-maven-3.9.6"
+# Default to checking system Java
+$javaValid = $false
 
-# Check if tools exist
-if (!(Test-Path $javaPath)) {
-    Write-Error "JDK 17 not found at $javaPath. Please ensure the assistant installed it correctly."
-}
-if (!(Test-Path $mavenPath)) {
-    Write-Error "Maven not found at $mavenPath. Please ensure the assistant installed it correctly."
+# 1. Try to find global System Java
+try {
+    Write-Host "Checking for System Java..."
+    $versionOutput = & java -version 2>&1
+    if ($LASTEXITCODE -eq 0 -or $?) {
+        Write-Host "System Java found."
+        $javaValid = $true
+    }
+} catch {
+    Write-Host "System Java not found."
 }
 
-# Set environment variables for this session
-$env:JAVA_HOME = $javaPath
-$env:PATH = "$mavenPath\bin;$env:JAVA_HOME\bin;$env:PATH"
+# 2. Fallback for the original author (for 'atacc') who used the portable Assistant-installed Java
+if (-not $javaValid) {
+    $toolsDir = "C:\Users\atacc\.gemini\antigravity\brain\566d4e59-70ae-4bca-baaa-004ad4757b84"
+    $javaPath = "$toolsDir\jdk-17.0.2"
+    
+    if (Test-Path $javaPath) {
+        Write-Host "Local portable Java found. Configuring..."
+        $env:JAVA_HOME = $javaPath
+        $env:PATH = "$javaPath\bin;$env:PATH"
+        $javaValid = $true
+    }
+}
+
+if (-not $javaValid) {
+    Write-Error "Java 17+ not found! Please ensure Java 17+ is installed globally on your machine and available in your system PATH to run Kalasetu."
+    exit 1
+}
 
 Write-Host "Checking for existing server on port 8080..."
 $processHoldingPort = Get-NetTCPConnection -LocalPort 8080 -ErrorAction SilentlyContinue
@@ -31,5 +46,10 @@ if ($processHoldingPort) {
     Start-Sleep -Seconds 2
 }
 
-Write-Host "Starting Kalasetu with Java 17 and Maven..."
-mvn clean spring-boot:run
+Write-Host "Starting Kalasetu application using Maven Wrapper..."
+# We use the local Maven wrapper (mvnw.cmd), which completely eliminates the need for Maven to be pre-installed!
+if (Test-Path ".\mvnw.cmd") {
+    .\mvnw.cmd clean spring-boot:run
+} else {
+    Write-Error "Maven wrapper (mvnw.cmd) not found. Please ensure the repository was fully cloned."
+}
