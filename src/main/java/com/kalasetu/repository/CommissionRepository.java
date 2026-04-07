@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface CommissionRepository extends JpaRepository<Commission, Long> {
-    List<Commission> findByArtistId(Long artistId);
+    List<Commission> findByArtist_Id(Long artistId);
 }

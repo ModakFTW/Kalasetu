@@ -32,7 +32,8 @@
                     <span style="font-weight: 600; font-size: 0.9rem; color: var(--on-surface-variant);" th:text="${'Welcome, ' + session.user.name}"></span>
                     
                     <!-- If artist, connect to dashboard -->
-                    <a th:if="${session.user.role.name() == 'ARTIST' && session.artistId != null}" th:href="@{/commission/artist/{id}(id=${session.artistId})}" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Dashboard</a>
+                    <a th:if="${session.user.role == T(com.kalasetu.model.UserRole).ARTIST and session.artistId != null}" th:href="@{/commission/artist/{id}(id=${session.artistId})}" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Dashboard</a>
+                    <a th:if="${session.user.role == T(com.kalasetu.model.UserRole).CUSTOMER}" th:href="@{/profile}" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Dashboard</a>
                     
                     <a th:href="@{/logout}" class="btn" style="padding: 0.5rem 1rem; font-size: 0.85rem; background: var(--secondary);">Logout</a>
                 </div>

@@ -44,6 +44,11 @@
                 <div style="background: var(--surface-low); padding: var(--spacing-md); border-radius: var(--border-radius); border-left: 3px solid var(--primary); margin-bottom: var(--spacing-md);">
                     <h3 class="font-serif" style="font-size: 1.2rem;">Artisan Specs</h3>
                     <ul style="list-style: none; padding: 0;">
+                        <li style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px dashed rgba(0,0,0,0.1);">
+                            <span style="color: var(--on-surface-variant);">Availability</span>
+                            <strong th:if="${product.isAvailable != false}" th:text="${(product.inventoryCount != null ? product.inventoryCount : 20) + ' in stock'}" style="color: var(--secondary);">In Stock</strong>
+                            <strong th:if="${product.isAvailable == false}" style="color: var(--error, #ba1a1a);">Out of Stock</strong>
+                        </li>
                         <li th:each="entry : ${product.attributes}" style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px dashed rgba(0,0,0,0.1);">
                             <span style="color: var(--on-surface-variant);" th:text="${entry.key}">Key</span>
                             <strong th:text="${entry.value}">Value</strong>
@@ -52,7 +57,8 @@
                 </div>
 
                 <div style="margin-top: var(--spacing-md); display: flex; flex-direction: column; gap: var(--spacing-sm);">
-                    <a th:href="@{/checkout}" class="btn" style="text-align: center; width: 100%;"><span class="material-symbols-outlined" style="margin-right: 0.5rem;">lock</span> Safe Checkout</a>
+                    <a th:if="${product.isAvailable != false}" th:href="@{/checkout(productId=${product.id})}" class="btn" style="text-align: center; width: 100%;"><span class="material-symbols-outlined" style="margin-right: 0.5rem;">lock</span> Safe Checkout</a>
+                    <button th:if="${product.isAvailable == false}" class="btn" disabled style="width: 100%; opacity: 0.5; cursor: not-allowed;"><span class="material-symbols-outlined" style="margin-right: 0.5rem;">sentiment_dissatisfied</span> Currently Out of Stock</button>
                 </div>
                 
                 <div style="margin-top: var(--spacing-md); font-size: 0.85rem; color: var(--outline); display: flex; align-items: center; gap: 0.5rem;">

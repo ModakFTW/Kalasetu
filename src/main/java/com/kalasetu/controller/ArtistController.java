@@ -58,6 +58,7 @@ public class ArtistController {
                                 @RequestParam("name") String name,
                                 @RequestParam("description") String description,
                                 @RequestParam("price") Double price,
+                                @RequestParam(value = "inventoryCount", defaultValue = "1") Integer inventoryCount,
                                 @RequestParam("image") MultipartFile image,
                                 HttpSession session) {
         
@@ -68,7 +69,7 @@ public class ArtistController {
         }
 
         Optional<Artist> artistOpt = artistRepository.findById(id);
-        if (artistOpt.isEmpty()) {
+        if (!artistOpt.isPresent()) {
             return "redirect:/artists";
         }
 
@@ -103,15 +104,18 @@ public class ArtistController {
                 // Handle error appropriately, potentially redirect with an error message
                 return "redirect:/commission/artist/" + id + "?error=upload_failed";
             }
+        } else {
+            return "redirect:/commission/artist/" + id + "?error=empty_file";
         }
 
-        // Create the product
         Product newProduct = new Product();
         newProduct.setName(name);
         newProduct.setDescription(description);
         newProduct.setPrice(price);
         newProduct.setImageUrl(imageUrl);
         newProduct.setArtist(artist);
+        newProduct.setInventoryCount(inventoryCount);
+        newProduct.setIsAvailable(inventoryCount != null && inventoryCount > 0);
         
         // We calculate the hash using the protection service
         if (!imageUrl.isEmpty()) {
@@ -128,5 +132,81 @@ public class ArtistController {
         productRepository.save(newProduct);
 
         return "redirect:/commission/artist/" + id + "?success=product_uploaded";
+    }
+
+    @PostMapping("/artist/{id}/profile-picture/upload")
+    public String uploadProfilePicture(@PathVariable Long id,
+                                       @RequestParam("image") MultipartFile image,
+                                       HttpSession session) {
+        Long sessionArtistId = (Long) session.getAttribute("artistId");
+        if (sessionArtistId == null || !sessionArtistId.equals(id)) {
+            return "redirect:/login";
+        }
+
+        Optional<Artist> artistOpt = artistRepository.findById(id);
+        if (!artistOpt.isPresent()) {
+            return "redirect:/artists";
+        }
+
+        Artist artist = artistOpt.get();
+
+        if (!image.isEmpty()) {
+            try {
+                Path uploadPath = Paths.get("src/main/resources/static/images/artists/");
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+
+                String originalFilename = image.getOriginalFilename();
+                String extension = "";
+                if (originalFilename != null && originalFilename.contains(".")) {
+                    extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+                }
+                String newFilename = UUID.randomUUID().toString() + extension;
+                Path filePath = uploadPath.resolve(newFilename);
+                Files.write(filePath, image.getBytes());
+                
+                artist.setProfilePictureUrl("/images/artists/" + newFilename);
+                artistRepository.save(artist);
+                
+                return "redirect:/commission/artist/" + id + "?success=profile_picture_updated";
+                
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "redirect:/commission/artist/" + id + "?error=upload_failed";
+            }
+        }
+        return "redirect:/commission/artist/" + id + "?error=empty_file";
+    }
+
+    @PostMapping("/artist/{id}/product/{productId}/edit")
+    public String editProduct(@PathVariable Long id,
+                              @PathVariable Long productId,
+                              @RequestParam("price") Double price,
+                              @RequestParam("inventoryCount") Integer inventoryCount,
+                              @RequestParam(value = "isAvailable", required = false) Boolean isAvailable,
+                              HttpSession session) {
+        Long sessionArtistId = (Long) session.getAttribute("artistId");
+        if (sessionArtistId == null || !sessionArtistId.equals(id)) {
+            return "redirect:/login";
+        }
+
+        Optional<Product> productOpt = productRepository.findById(productId);
+        if (productOpt.isPresent()) {
+            Product product = productOpt.get();
+            if (product.getArtist().getId().equals(id)) {
+                if (price != null && price >= 0) {
+                    product.setPrice(price);
+                }
+                if (inventoryCount != null && inventoryCount >= 0) {
+                    product.setInventoryCount(inventoryCount);
+                }
+                product.setIsAvailable(isAvailable != null ? isAvailable : (product.getInventoryCount() != null && product.getInventoryCount() > 0));
+                
+                productRepository.save(product);
+                return "redirect:/commission/artist/" + id + "?success=product_updated";
+            }
+        }
+        return "redirect:/commission/artist/" + id + "?error=product_not_found";
     }
 }

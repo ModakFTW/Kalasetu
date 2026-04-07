@@ -48,27 +48,76 @@
         </div>
 
         <div style="margin-top: var(--spacing-xl);">
+            <h2 class="font-serif page-title" style="text-align: left; font-size: 1.8rem;">Inventory Management</h2>
+            <div style="background: white; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-soft); overflow: hidden;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead style="background-color: var(--surface-low); border-bottom: 2px solid var(--surface-container);">
+                        <tr>
+                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Product</th>
+                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Price</th>
+                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Stock</th>
+                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Status</th>
+                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="prod : ${products}" style="border-bottom: 1px solid var(--surface-container);">
+                            <td style="padding: 1rem; vertical-align: middle;">
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <img th:src="${prod.imageUrl}" style="width: 40px; height: 40px; border-radius: 4px; object-fit: cover;">
+                                    <span th:text="${prod.name}" style="font-weight: 600;">Product Name</span>
+                                </div>
+                            </td>
+                            <td style="padding: 1rem; vertical-align: middle;" th:text="${'$' + prod.price}">$0.00</td>
+                            <td style="padding: 1rem; vertical-align: middle;" th:text="${prod.inventoryCount ?: 0}">0</td>
+                            <td style="padding: 1rem; vertical-align: middle;">
+                                <span th:if="${prod.isAvailable != false}" style="color: var(--secondary); font-weight: 600;">Available</span>
+                                <span th:if="${prod.isAvailable == false}" style="color: var(--error, #ba1a1a); font-weight: 600;">Out of Stock</span>
+                            </td>
+                            <td style="padding: 1rem; vertical-align: middle;">
+                                <button class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" 
+                                        th:onclick="openEditModal([[${prod.id}]], [[${prod.name}]], [[${prod.price}]], [[${prod.inventoryCount ?: 0}]], [[${prod.isAvailable ?: true}]])">
+                                    Edit
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="margin-top: var(--spacing-xl);">
             <h2 class="font-serif page-title" style="text-align: left; font-size: 1.8rem;">Upload New Product</h2>
             
             <div th:if="${param.success == 'product_uploaded'}" style="background-color: var(--secondary); color: white; padding: 1rem; border-radius: var(--border-radius); margin-bottom: var(--spacing-md); text-align: center; box-shadow: var(--shadow-soft);">
                 <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 0.5rem;">check_circle</span> 
                 Product added to your catalog successfully!
             </div>
-            <div th:if="${param.error == 'upload_failed'}" style="background-color: var(--error, #ba1a1a); color: white; padding: 1rem; border-radius: var(--border-radius); margin-bottom: var(--spacing-md); text-align: center; box-shadow: var(--shadow-soft);">
+            <div th:if="${param.success == 'product_updated'}" style="background-color: var(--secondary); color: white; padding: 1rem; border-radius: var(--border-radius); margin-bottom: var(--spacing-md); text-align: center; box-shadow: var(--shadow-soft);">
+                <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 0.5rem;">check_circle</span> 
+                Product updated successfully!
+            </div>
+            <div th:if="${param.error}" style="background-color: var(--error, #ba1a1a); color: white; padding: 1rem; border-radius: var(--border-radius); margin-bottom: var(--spacing-md); text-align: center; box-shadow: var(--shadow-soft);">
                 <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 0.5rem;">error</span> 
-                Failed to upload the product image. Please try again.
+                <span th:text="${param.error == 'upload_failed' ? 'Failed to upload image.' : 'An error occurred.'}">Error</span>
             </div>
 
             <form th:action="@{/artist/{id}/product/upload(id=${artist.id})}" method="post" enctype="multipart/form-data" class="form-container" style="max-width: 800px; margin: 0; background: white; padding: var(--spacing-lg); border-radius: var(--border-radius-lg); box-shadow: var(--shadow-soft);">
                 
-                <div class="form-group" style="margin-bottom: 1.5rem;">
-                    <label for="name" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Product Name</label>
-                    <input type="text" id="name" name="name" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--outline-variant); border-radius: var(--border-radius);">
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                    <div class="form-group">
+                        <label for="name" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Product Name</label>
+                        <input type="text" id="name" name="name" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--outline-variant); border-radius: var(--border-radius);">
+                    </div>
+                    <div class="form-group">
+                        <label for="price" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Price ($)</label>
+                        <input type="number" id="price" name="price" step="0.01" min="0" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--outline-variant); border-radius: var(--border-radius);">
+                    </div>
                 </div>
 
                 <div class="form-group" style="margin-bottom: 1.5rem;">
-                    <label for="price" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Price ($)</label>
-                    <input type="number" id="price" name="price" step="0.01" min="0" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--outline-variant); border-radius: var(--border-radius);">
+                    <label for="inventoryCount" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Initial Stock</label>
+                    <input type="number" id="inventoryCount" name="inventoryCount" min="0" value="1" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--outline-variant); border-radius: var(--border-radius);">
                 </div>
                 
                 <div class="form-group" style="margin-bottom: 1.5rem;">
@@ -79,7 +128,6 @@
                 <div class="form-group" style="margin-bottom: 2rem;">
                     <label for="image" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Product Image</label>
                     <input type="file" id="image" name="image" accept="image/png, image/jpeg, image/webp" required style="width: 100%; padding: 0.75rem; border: 1px dashed var(--outline); border-radius: var(--border-radius); background: var(--surface-low);">
-                    <small style="color: var(--on-surface-variant); display: block; margin-top: 0.5rem;">Supported formats: JPEG, PNG, WEBP. Max size: 5MB.</small>
                 </div>
 
                 <button type="submit" class="btn btn-primary" style="width: 100%;">
@@ -87,6 +135,52 @@
                 </button>
             </form>
         </div>
+
+        <!-- Edit Product Modal -->
+        <div id="editModal" style="display:none; position:fixed; z-index:100; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
+            <div style="background:white; padding:2rem; border-radius:var(--border-radius-lg); width:90%; max-width:500px; box-shadow:var(--shadow-soft);">
+                <h2 class="font-serif" id="modalTitle">Edit Product</h2>
+                <form id="editForm" method="POST" style="margin-top:1.5rem;">
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label>Price ($)</label>
+                        <input type="number" name="price" id="modalPrice" step="0.01" min="0" required style="width:100%; padding:0.75rem; border:1px solid var(--outline-variant); border-radius:var(--border-radius);">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label>Stock Count</label>
+                        <input type="number" name="inventoryCount" id="modalStock" min="0" required style="width:100%; padding:0.75rem; border:1px solid var(--outline-variant); border-radius:var(--border-radius);">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" name="isAvailable" id="modalAvailable" style="width: 20px; height: 20px;">
+                        <label for="modalAvailable">Is Available for Sale</label>
+                    </div>
+                    <div style="display:flex; gap:1rem;">
+                        <button type="button" onclick="closeEditModal()" class="btn btn-outline" style="flex:1;">Cancel</button>
+                        <button type="submit" class="btn btn-primary" style="flex:1;">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            function openEditModal(id, name, price, stock, available) {
+                const artistId = /*[[${artist.id}]]*/ 0;
+                const form = document.getElementById('editForm');
+                form.action = '/artist/' + artistId + '/product/' + id + '/edit';
+                
+                document.getElementById('modalTitle').innerText = 'Edit ' + name;
+                document.getElementById('modalPrice').value = price;
+                document.getElementById('modalStock').value = stock;
+                document.getElementById('modalAvailable').checked = available;
+                
+                document.getElementById('editModal').style.display = 'flex';
+            }
+            
+            function closeEditModal() {
+                document.getElementById('editModal').style.display = 'none';
+            }
+            /*]]>*/
+        </script>
 
         <div style="margin-top: var(--spacing-lg); text-align: left;">
             <a th:href="@{/store}" class="btn btn-outline"><span class="material-symbols-outlined" style="margin-right: 0.5rem;">arrow_back</span> Back to Store</a>

@@ -11,17 +11,17 @@ INSERT INTO category (id, name) VALUES (4, 'Woodwork');
 INSERT INTO category (id, name) VALUES (5, 'Jewelry');
 INSERT INTO category (id, name) VALUES (6, 'Digital Art');
 
-INSERT INTO artist (id, name, bio, email) VALUES (1, 'Anya Sharma', 'Ceramicist inspired by nature.', 'anya@artisan.com');
-INSERT INTO artist (id, name, bio, email) VALUES (2, 'Benji K.', 'Weaving traditional patterns with modern twist.', 'benji@artisan.com');
-INSERT INTO artist (id, name, bio, email) VALUES (3, 'Arun Verma', 'Ceramic Sculptor & Potter', 'arun@artisan.com');
-INSERT INTO artist (id, name, bio, email) VALUES (4, 'Sara Martinez', 'Digital Canvas Illustrator', 'sara@artisan.com');
+INSERT INTO artist (id, name, bio, email, profile_picture_url) VALUES (1, 'Anya Sharma', 'Ceramicist inspired by nature.', 'anya@artisan.com', '/images/artists/Anya Sharma.png');
+INSERT INTO artist (id, name, bio, email, profile_picture_url) VALUES (2, 'Benji K.', 'Weaving traditional patterns with modern twist.', 'benji@artisan.com', '/images/artists/Benji K.png');
+INSERT INTO artist (id, name, bio, email, profile_picture_url) VALUES (3, 'Arun Verma', 'Ceramic Sculptor & Potter', 'arun@artisan.com', '/images/artists/Arun Verma.png');
+INSERT INTO artist (id, name, bio, email, profile_picture_url) VALUES (4, 'Sara Martinez', 'Digital Canvas Illustrator', 'sara@artisan.com', '/images/artists/Sara Martinez.png');
 
-INSERT INTO product (id, name, description, price, image_url, image_hash, artist_id, category_id) VALUES (1, 'Blue Glaze Mug', 'Hand-thrown stoneware mug.', 25.00, '/images/blue glaze ug.jpg', null, 1, 1);
-INSERT INTO product (id, name, description, price, image_url, image_hash, artist_id, category_id) VALUES (2, 'Woven Wall Hanging', 'Wool and cotton tapestry.', 120.00, '/images/woven wall hanging.jpg', null, 2, 2);
-INSERT INTO product (id, name, description, price, image_url, image_hash, artist_id, category_id) VALUES (3, 'Teracotta Sculpture', 'Hand-thrown clay sculpture.', 180.00, '/images/mountain landscape painting.jpg', null, 3, 1);
-INSERT INTO product (id, name, description, price, image_url, image_hash, artist_id, category_id) VALUES (4, 'Digital Dreamscape', 'High-res digital canvas print.', 85.00, '/images/hand carved walnut bowl.jpg', null, 4, 6);
-INSERT INTO product (id, name, description, price, image_url, image_hash, artist_id, category_id) VALUES (5, 'Terracotta Vase', 'Rustic clay vase for dried flowers.', 45.00, '/images/teracotta vase.jpg', null, 1, 1);
-INSERT INTO product (id, name, description, price, image_url, image_hash, artist_id, category_id) VALUES (6, 'Geometric Brass Earrings', 'Hand-cut recycled brass.', 35.00, '/images/geometric brass earisgns.jpg', null, 2, 5);
+INSERT INTO product (id, name, description, price, image_url, image_hash, artist_id, category_id, inventory_count, is_available) VALUES (1, 'Blue Glaze Mug', 'Hand-thrown stoneware mug.', 25.00, '/images/blue glaze ug.jpg', null, 1, 1, 20, true);
+INSERT INTO product (id, name, description, price, image_url, image_hash, artist_id, category_id, inventory_count, is_available) VALUES (2, 'Woven Wall Hanging', 'Wool and cotton tapestry.', 120.00, '/images/woven wall hanging.jpg', null, 2, 2, 20, true);
+INSERT INTO product (id, name, description, price, image_url, image_hash, artist_id, category_id, inventory_count, is_available) VALUES (3, 'Teracotta Sculpture', 'Hand-thrown clay sculpture.', 180.00, '/images/mountain landscape painting.jpg', null, 3, 1, 10, true);
+INSERT INTO product (id, name, description, price, image_url, image_hash, artist_id, category_id, inventory_count, is_available) VALUES (4, 'Digital Dreamscape', 'High-res digital canvas print.', 85.00, '/images/hand carved walnut bowl.jpg', null, 4, 6, 20, true);
+INSERT INTO product (id, name, description, price, image_url, image_hash, artist_id, category_id, inventory_count, is_available) VALUES (5, 'Terracotta Vase', 'Rustic clay vase for dried flowers.', 45.00, '/images/teracotta vase.jpg', null, 1, 1, 15, true);
+INSERT INTO product (id, name, description, price, image_url, image_hash, artist_id, category_id, inventory_count, is_available) VALUES (6, 'Geometric Brass Earrings', 'Hand-cut recycled brass.', 35.00, '/images/geometric brass earisgns.jpg', null, 2, 5, 25, true);
 
 INSERT INTO product_attributes (product_id, attribute_key, attribute_value) VALUES (1, 'Capacity', '300ml');
 INSERT INTO product_attributes (product_id, attribute_key, attribute_value) VALUES (1, 'Dishwasher Safe', 'Yes');

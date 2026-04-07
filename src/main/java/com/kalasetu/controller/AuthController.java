@@ -37,8 +37,8 @@ public class AuthController {
             session.setAttribute("user", user);
 
             if (user.getRole() == UserRole.ARTIST) {
-                Optional<Artist> artistOpt = artistRepository.findAll().stream().filter(a -> a.getEmail().equals(email)).findFirst();
-                if(artistOpt.isPresent()) {
+                Optional<Artist> artistOpt = artistRepository.findByEmail(email);
+                if (artistOpt.isPresent()) {
                     session.setAttribute("artistId", artistOpt.get().getId());
                     return "redirect:/commission/artist/" + artistOpt.get().getId();
                 }

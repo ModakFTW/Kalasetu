@@ -28,10 +28,15 @@
 
         <div class="store-grid">
             <div th:each="product : ${products}" class="product-card">
-                <a th:href="@{/products/{id}(id=${product.id})}">
-                    <img th:if="${product.imageUrl != null}" th:src="@{/images/protected/{id}(id=${product.id})}" th:alt="${product.name}" class="product-image" />
-                    <img th:unless="${product.imageUrl != null}" src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Placeholder" class="product-image" />
-                </a>
+                <div style="position: relative;">
+                    <a th:href="@{/products/{id}(id=${product.id})}">
+                        <img th:if="${product.imageUrl != null}" th:src="@{/images/protected/{id}(id=${product.id})}" th:alt="${product.name}" class="product-image" />
+                        <img th:unless="${product.imageUrl != null}" src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Placeholder" class="product-image" />
+                    </a>
+                    <div th:if="${product.isAvailable == false}" style="position: absolute; top: 1rem; right: 1rem; background: var(--error, #ba1a1a); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: bold; box-shadow: var(--shadow-soft);">
+                        OUT OF STOCK
+                    </div>
+                </div>
                 
                 <div class="product-info">
                     <div class="product-artist" th:text="'by ' + ${product.artist.name}">by Artisan Name</div>
@@ -41,6 +46,7 @@
                     
                     <div class="product-footer">
                         <div class="product-price" th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 2)}">$0.00</div>
+                        <span style="font-size: 0.85rem; color: var(--on-surface-variant);" th:if="${product.inventoryCount != null}" th:text="${product.inventoryCount + ' in stock'}">5 in stock</span>
                         <a th:href="@{/products/{id}(id=${product.id})}" style="color: var(--secondary); display: flex; align-items: center;">
                             <span class="material-symbols-outlined">shopping_bag</span>
                         </a>

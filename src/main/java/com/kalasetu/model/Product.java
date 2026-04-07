@@ -37,8 +37,18 @@ public class Product {
      */
     private String imageHash;
 
+    /**
+     * Quantity of this product currently in stock.
+     */
+    private Integer inventoryCount;
+
+    /**
+     * Whether the artist has marked this product as available.
+     */
+    private Boolean isAvailable = true;
 
     public Product() {
+
     }
 
     public Product(String name, String description, Double price, String imageUrl, Artist artist, Category category) {
@@ -116,4 +126,10 @@ public class Product {
 
     public String getImageHash() { return imageHash; }
     public void setImageHash(String imageHash) { this.imageHash = imageHash; }
+
+    public Integer getInventoryCount() { return inventoryCount; }
+    public void setInventoryCount(Integer inventoryCount) { this.inventoryCount = inventoryCount; }
+
+    public Boolean getIsAvailable() { return isAvailable; }
+    public void setIsAvailable(Boolean isAvailable) { this.isAvailable = isAvailable; }
 }

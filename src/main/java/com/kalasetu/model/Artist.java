@@ -17,6 +17,7 @@ public class Artist {
     private String name;
     private String bio;
     private String email;
+    private String profilePictureUrl;
 
     @OneToMany(mappedBy = "artist")
     private List<Product> catalog;
@@ -56,4 +57,7 @@ public class Artist {
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+    
+    public String getProfilePictureUrl() { return profilePictureUrl; }
+    public void setProfilePictureUrl(String profilePictureUrl) { this.profilePictureUrl = profilePictureUrl; }
 }

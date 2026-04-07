@@ -5,6 +5,7 @@ import com.kalasetu.model.Commission;
 import com.kalasetu.model.CommissionStatus;
 import com.kalasetu.repository.ArtistRepository;
 import com.kalasetu.repository.CommissionRepository;
+import com.kalasetu.repository.ProductRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +18,14 @@ public class CommissionController {
 
     private final CommissionRepository commissionRepository;
     private final ArtistRepository artistRepository;
+    private final ProductRepository productRepository;
 
-    public CommissionController(CommissionRepository commissionRepository, ArtistRepository artistRepository) {
+    public CommissionController(CommissionRepository commissionRepository, 
+                                ArtistRepository artistRepository, 
+                                ProductRepository productRepository) {
         this.commissionRepository = commissionRepository;
         this.artistRepository = artistRepository;
+        this.productRepository = productRepository;
     }
 
     @GetMapping("/request/{artistId}")
@@ -52,7 +57,8 @@ public class CommissionController {
         Optional<Artist> artist = artistRepository.findById(artistId);
         if (artist.isPresent()) {
             model.addAttribute("artist", artist.get());
-            model.addAttribute("commissions", commissionRepository.findByArtistId(artistId));
+            model.addAttribute("commissions", commissionRepository.findByArtist_Id(artistId));
+            model.addAttribute("products", productRepository.findByArtist(artist.get()));
             return "artist-commissions";
         }
         return "redirect:/";
