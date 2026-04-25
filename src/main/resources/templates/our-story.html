@@ -133,46 +133,46 @@
     <div layout:fragment="content">
         
         <div class="story-hero">
-            <h1>Bridging Culture & Canvas</h1>
-            <p>KalaSetu, which translates to "The Bridge of Art", is dedicated to empowering local artisans by bringing their authentic crafts to a global stage. We exist to ensure culture thrives in the digital age.</p>
+            <h1 th:text="#{story.hero_title}">Bridging Culture & Canvas</h1>
+            <p th:text="#{story.hero_desc}">KalaSetu, which translates to "The Bridge of Art", is dedicated to empowering local artisans by bringing their authentic crafts to a global stage. We exist to ensure culture thrives in the digital age.</p>
         </div>
 
         <div class="principles-section">
             <div class="principle-card">
-                <h3>Authenticity First</h3>
-                <p>We celebrate the raw, unfiltered expression of traditional and contemporary artists. Every piece on KalaSetu tells a genuine story from the hands that crafted it.</p>
+                <h3 th:text="#{story.pillar1_title}">Authenticity First</h3>
+                <p th:text="#{story.pillar1_desc}">We celebrate the raw, unfiltered expression of traditional and contemporary artists. Every piece on KalaSetu tells a genuine story from the hands that crafted it.</p>
             </div>
             <div class="principle-card">
-                <h3>Empowering Creators</h3>
-                <p>KalaSetu gives artists complete control over their catalog, pricing, and commissions, allowing them to earn a fair living directly from their passion without unfair middlemen.</p>
+                <h3 th:text="#{story.pillar2_title}">Empowering Creators</h3>
+                <p th:text="#{story.pillar2_desc}">KalaSetu gives artists complete control over their catalog, pricing, and commissions, allowing them to earn a fair living directly from their passion without unfair middlemen.</p>
             </div>
             <div class="principle-card">
-                <h3>Community Guardianship</h3>
-                <p>We protect creator IP with strict, community-driven moderation. We believe the true value of art is rooted in respecting the originator.</p>
+                <h3 th:text="#{story.pillar3_title}">Community Guardianship</h3>
+                <p th:text="#{story.pillar3_desc}">We protect creator IP with strict, community-driven moderation. We believe the true value of art is rooted in respecting the originator.</p>
             </div>
         </div>
 
         <div class="featured-artists-section">
-            <h2>Voices from the Studio</h2>
+            <h2 th:text="#{story.voices_title}">Voices from the Studio</h2>
             <div class="artist-quotes">
                 <div class="quote-card">
-                    <p class="quote-text">"Before KalaSetu, my traditional pottery was confined to local street fairs. Now, I receive commissions from collectors halfway across the world. The platform respects my pricing and protects my designs."</p>
+                    <p class="quote-text" th:text="#{story.quote1_text}">"Before KalaSetu, my traditional pottery was confined to local street fairs. Now, I receive commissions from collectors halfway across the world. The platform respects my pricing and protects my designs."</p>
                     <div class="quote-author">
                         <div class="author-avatar">AV</div>
                         <div class="author-info">
                             <h4>Arun Verma</h4>
-                            <p>Ceramic Sculptor & Potter</p>
+                            <p th:text="#{story.quote1_role}">Ceramic Sculptor & Potter</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="quote-card">
-                    <p class="quote-text">"The IP protection system here is a game-changer. As a digital illustrator, seeing my work constantly stolen was disheartening. KalaSetu is the first marketplace that actively defends my originality."</p>
+                    <p class="quote-text" th:text="#{story.quote2_text}">"The IP protection system here is a game-changer. As a digital illustrator, seeing my work constantly stolen was disheartening. KalaSetu is the first marketplace that actively defends my originality."</p>
                     <div class="quote-author">
                         <div class="author-avatar">SM</div>
                         <div class="author-info">
                             <h4>Sara Martinez</h4>
-                            <p>Digital Canvas Illustrator</p>
+                            <p th:text="#{story.quote2_role}">Digital Canvas Illustrator</p>
                         </div>
                     </div>
                 </div>

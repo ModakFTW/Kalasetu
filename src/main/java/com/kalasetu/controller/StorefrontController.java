@@ -3,10 +3,14 @@ package com.kalasetu.controller;
 import com.kalasetu.model.Product;
 import com.kalasetu.model.User;
 import com.kalasetu.model.CustomerOrder;
+import com.kalasetu.model.Category;
 import com.kalasetu.repository.ArtistRepository;
 import com.kalasetu.repository.ProductRepository;
 import com.kalasetu.repository.CustomerOrderRepository;
 import com.kalasetu.repository.UserRepository;
+import com.kalasetu.repository.CommissionRepository;
+import com.kalasetu.repository.CategoryRepository;
+import java.util.List;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Controller
@@ -24,15 +30,21 @@ public class StorefrontController {
     private final ArtistRepository artistRepository;
     private final CustomerOrderRepository customerOrderRepository;
     private final UserRepository userRepository;
+    private final CommissionRepository commissionRepository;
+    private final CategoryRepository categoryRepository;
 
     public StorefrontController(ProductRepository productRepository,
-                                ArtistRepository artistRepository,
-                                CustomerOrderRepository customerOrderRepository,
-                                UserRepository userRepository) {
+                                 ArtistRepository artistRepository,
+                                 CustomerOrderRepository customerOrderRepository,
+                                 UserRepository userRepository,
+                                 CommissionRepository commissionRepository,
+                                 CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.artistRepository = artistRepository;
         this.customerOrderRepository = customerOrderRepository;
         this.userRepository = userRepository;
+        this.commissionRepository = commissionRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping("/")
@@ -41,8 +53,16 @@ public class StorefrontController {
     }
 
     @GetMapping("/store")
-    public String store(Model model) {
-        model.addAttribute("products", productRepository.findAll());
+    public String store(@RequestParam(required = false) Long categoryId, Model model) {
+        List<Product> products;
+        if (categoryId != null) {
+            products = productRepository.findByCategoryId(categoryId);
+        } else {
+            products = productRepository.findAll();
+        }
+        model.addAttribute("products", products);
+        model.addAttribute("categories", categoryRepository.findAll());
+        model.addAttribute("selectedCategoryId", categoryId);
         return "store";
     }
 
@@ -93,7 +113,8 @@ public class StorefrontController {
                 CustomerOrder order = new CustomerOrder();
                 order.setCustomer(userOpt.get());
                 order.setProduct(product);
-                order.setOrderDate(java.time.LocalDateTime.now());
+                order.setOrderDate(LocalDateTime.now());
+                order.setEstimatedDeliveryDate(LocalDate.now().plusDays(7));
                 order.setStatus("PLACED");
                 customerOrderRepository.save(order);
                 
@@ -118,6 +139,7 @@ public class StorefrontController {
             User user = userOpt.get();
             model.addAttribute("customer", user);
             model.addAttribute("orders", customerOrderRepository.findByCustomerOrderByOrderDateDesc(user));
+            model.addAttribute("commissions", commissionRepository.findByRequesterEmail(user.getEmail()));
             return "customer-profile";
         }
         return "redirect:/";
@@ -130,7 +152,7 @@ public class StorefrontController {
 
     @GetMapping("/artists")
     public String artists(Model model) {
-        model.addAttribute("artists", artistRepository.findAll());
+        model.addAttribute("artists", artistRepository.findByApprovedTrue());
         return "artists";
     }
 }

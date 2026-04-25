@@ -8,9 +8,9 @@
 <body>
 
     <div layout:fragment="content">
-        <h1 class="page-title font-serif">Meet the Artisans</h1>
-        <p style="text-align: center; color: var(--on-surface-variant); max-width: 600px; margin: 0 auto var(--spacing-lg);">
-            Behind every piece is a master of their craft. Connect with our curated roster of global talent and commission bespoke custom works.
+        <h1 class="page-title font-serif" th:text="#{artists.title}">Meet the Artisans</h1>
+        <p style="text-align: center; color: var(--on-surface-variant); max-width: 600px; margin: 0 auto var(--spacing-lg);" th:text="#{artists.subtitle}">
+            Behind every piece is a master of their craft. Connect with our curated roster of global talent and customize bespoke custom works.
         </p>
 
         <div class="store-grid">
@@ -29,7 +29,7 @@
                 
                 <div style="margin-top: auto; width: 100%;">
                     <a th:href="@{/commission/request/{id}(id=${artist.id})}" class="btn btn-outline" style="width: 100%; font-size: 0.9rem; padding: 0.75rem;">
-                        <span class="material-symbols-outlined" style="margin-right: 0.5rem; font-size: 1.1rem;">draw</span> Request Commission
+                        <span class="material-symbols-outlined" style="margin-right: 0.5rem; font-size: 1.1rem;">draw</span> <span th:text="#{artists.request_customization}">Request Customization</span>
                     </a>
                 </div>
             </div>

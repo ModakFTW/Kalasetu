@@ -21,11 +21,11 @@
                 Artist biography goes here.
             </p>
             <a th:href="@{/commission/request/{id}(id=${artist.id})}" class="btn btn-primary" style="font-size: 1.1rem; padding: 0.75rem 2rem;">
-                <span class="material-symbols-outlined" style="margin-right: 0.5rem; vertical-align: middle;">draw</span> Request Custom Commission
+                <span class="material-symbols-outlined" style="margin-right: 0.5rem; vertical-align: middle;">draw</span> <span th:text="#{artist.request_custom}">Request Customization</span>
             </a>
         </div>
 
-        <h2 class="font-serif" style="border-bottom: 1px solid var(--outline-variant); padding-bottom: 0.5rem; margin-bottom: var(--spacing-lg);">Catalog</h2>
+        <h2 class="font-serif" style="border-bottom: 1px solid var(--outline-variant); padding-bottom: 0.5rem; margin-bottom: var(--spacing-lg);" th:text="#{artist.catalog}">Catalog</h2>
 
         <div class="store-grid">
             <div th:each="product : ${products}" class="product-card">
@@ -34,19 +34,19 @@
                 </a>
                 <div style="padding: var(--spacing-md);">
                     <h3 class="font-serif" style="margin-bottom: 0.5rem;">
-                        <a th:href="@{/product/{id}(id=${product.id})}" th:text="${product.name}" style="color: inherit; text-decoration: none;">Product Name</a>
+                        <a th:href="@{/product/{id}(id=${product.id})}" th:text="${product.getLocalizedName()}" style="color: inherit; text-decoration: none;">Product Name</a>
                     </h3>
-                    <p style="color: var(--on-surface-variant); margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" th:text="${product.description}">Product Description</p>
+                    <p style="color: var(--on-surface-variant); margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" th:text="${product.getLocalizedDescription()}">Product Description</p>
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
-                        <span style="font-weight: bold; color: var(--primary); font-size: 1.2rem;" th:text="${'$' + product.price}">$0.00</span>
-                        <a th:href="@{/checkout(productId=${product.id})}" class="btn btn-primary" style="padding: 0.5rem 1rem;">Buy</a>
+                        <span style="font-weight: bold; color: var(--primary); font-size: 1.2rem;" th:text="${'₹' + product.price}">₹0.00</span>
+                        <a th:href="@{/checkout(productId=${product.id})}" class="btn btn-primary" style="padding: 0.5rem 1rem;" th:text="#{product.buy_now}">Buy</a>
                     </div>
                 </div>
             </div>
             
             <div th:if="${#lists.isEmpty(products)}" style="grid-column: 1 / -1; text-align: center; padding: 4rem; color: var(--outline);">
                 <span class="material-symbols-outlined" style="font-size: 4rem; opacity: 0.5; margin-bottom: 1rem; display: block;">inventory_2</span>
-                <p style="font-size: 1.2rem;">This artist has not uploaded any products yet.</p>
+                <p style="font-size: 1.2rem;" th:text="#{artist.no_products}">This artist has not uploaded any products yet.</p>
             </div>
         </div>
 

@@ -13,13 +13,22 @@
             <strong>Order Confirmed!</strong> Your handcrafted piece is being prepared for shipment.
         </div>
 
-
+        <h1 class="page-title font-serif" th:text="#{store.title}">Curated Collection</h1>
         
-        <h1 class="page-title font-serif">Curated Collection</h1>
-        
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-md); border-bottom: 1px solid var(--surface-container); padding-bottom: var(--spacing-sm);">
-            <div>
-                <a th:href="@{/}" style="color: var(--on-surface-variant); font-size: 0.9rem;">Home</a> / <span style="font-weight: 600;">Shop</span>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-md); border-bottom: 1px solid var(--surface-container); padding-bottom: var(--spacing-sm); flex-wrap: wrap; gap: 1rem;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="font-size: 0.9rem;">
+                    <a th:href="@{/}" style="color: var(--on-surface-variant);" th:text="#{nav.home}">Home</a> / <span style="font-weight: 600;" th:text="#{nav.store}">Shop</span>
+                </div>
+                
+                <!-- Category Dropdown -->
+                <form th:action="@{/store}" method="get" id="categoryForm" style="display: flex; align-items: center; gap: 0.5rem;">
+                    <label for="categoryId" th:text="#{store.filter_category}" style="font-size: 0.85rem; font-weight: 600; color: var(--on-surface-variant);">Filter:</label>
+                    <select name="categoryId" id="categoryId" onchange="document.getElementById('categoryForm').submit()" style="padding: 0.4rem 0.8rem; border-radius: 6px; border: 1px solid var(--outline); background: white; font-size: 0.85rem;">
+                        <option value="" th:text="#{store.all_categories}">All Categories</option>
+                        <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.getLocalizedName()}" th:selected="${cat.id == selectedCategoryId}"></option>
+                    </select>
+                </form>
             </div>
             <div>
                 <span style="font-weight: 600; color: var(--on-surface-variant);" th:text="${products.size()} + ' Items'">0 Items</span>
@@ -30,23 +39,25 @@
             <div th:each="product : ${products}" class="product-card">
                 <div style="position: relative;">
                     <a th:href="@{/products/{id}(id=${product.id})}">
-                        <img th:if="${product.imageUrl != null}" th:src="@{/images/protected/{id}(id=${product.id})}" th:alt="${product.name}" class="product-image" />
+                        <img th:if="${product.imageUrl != null}" th:src="@{/images/protected/{id}(id=${product.id})}" th:alt="${product.getLocalizedName()}" class="product-image" />
                         <img th:unless="${product.imageUrl != null}" src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Placeholder" class="product-image" />
                     </a>
-                    <div th:if="${product.isAvailable == false}" style="position: absolute; top: 1rem; right: 1rem; background: var(--error, #ba1a1a); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: bold; box-shadow: var(--shadow-soft);">
+                    <div th:if="${product.isAvailable == false}" style="position: absolute; top: 1rem; right: 1rem; background: var(--error, #ba1a1a); color: white; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: bold; box-shadow: var(--shadow-soft);" th:text="#{product.out_of_stock}">
                         OUT OF STOCK
                     </div>
                 </div>
                 
                 <div class="product-info">
-                    <div class="product-artist" th:text="'by ' + ${product.artist.name}">by Artisan Name</div>
+                    <div class="product-artist">
+                        <span th:text="#{product.crafted_by}">by</span> <span th:text="${product.artist.name}">Artisan Name</span>
+                    </div>
                     <a th:href="@{/products/{id}(id=${product.id})}">
-                        <h3 class="product-title font-serif" th:text="${product.name}">Product Name</h3>
+                        <h3 class="product-title font-serif" th:text="${product.getLocalizedName()}">Product Name</h3>
                     </a>
                     
                     <div class="product-footer">
-                        <div class="product-price" th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 2)}">$0.00</div>
-                        <span style="font-size: 0.85rem; color: var(--on-surface-variant);" th:if="${product.inventoryCount != null}" th:text="${product.inventoryCount + ' in stock'}">5 in stock</span>
+                        <div class="product-price" th:text="'₹' + ${#numbers.formatDecimal(product.price, 1, 2)}">₹0.00</div>
+                        <span style="font-size: 0.85rem; color: var(--on-surface-variant);" th:if="${product.inventoryCount != null}" th:text="${product.inventoryCount + ' ' + #messages.msg('product.in_stock')}">5 in stock</span>
                         <a th:href="@{/products/{id}(id=${product.id})}" style="color: var(--secondary); display: flex; align-items: center;">
                             <span class="material-symbols-outlined">shopping_bag</span>
                         </a>

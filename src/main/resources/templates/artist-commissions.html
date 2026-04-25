@@ -9,22 +9,22 @@
 
     <div layout:fragment="content">
 
-        <h1 class="page-title font-serif" th:text="${'Commissions for ' + artist.name}">Commissions</h1>
+        <h1 class="page-title font-serif" th:text="#{dashboard.customizations} + ' ' + ${artist.name}">Customizations</h1>
 
-        <div th:if="${param.success}" style="background-color: var(--secondary); color: white; padding: 1rem; border-radius: var(--border-radius); margin-bottom: var(--spacing-md); text-align: center; box-shadow: var(--shadow-soft);">
+        <div th:if="${param.success == 'commission_responded'}" style="background-color: var(--secondary); color: white; padding: 1rem; border-radius: var(--border-radius); margin-bottom: var(--spacing-md); text-align: center; box-shadow: var(--shadow-soft);">
             <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 0.5rem;">check_circle</span> 
-            Commission request submitted successfully!
+            <span th:text="#{customization.sent_success}">Customization request submitted successfully!</span>
         </div>
 
         <div style="background: white; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-soft); overflow: hidden;">
             <table style="width: 100%; border-collapse: collapse; text-align: left;">
                 <thead style="background-color: var(--surface-low); border-bottom: 2px solid var(--surface-container);">
                     <tr>
-                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Requester</th>
-                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Contact</th>
-                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600; width: 40%;">Details</th>
-                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Budget</th>
-                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Status</th>
+                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;" th:text="#{dashboard.table_requester}">Requester</th>
+                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;" th:text="#{dashboard.table_contact}">Contact</th>
+                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600; width: 40%;" th:text="#{customization.message}">Details</th>
+                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;" th:text="#{customization.budget}">Budget</th>
+                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;" th:text="#{dashboard.table_status}">Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,7 +32,7 @@
                         <td style="padding: 1rem; vertical-align: top; font-weight: 600;" th:text="${comm.requesterName}">Name</td>
                         <td style="padding: 1rem; vertical-align: top;" th:text="${comm.requesterContact}">Contact</td>
                         <td style="padding: 1rem; vertical-align: top; color: var(--on-surface-variant);" th:text="${comm.message}">Message</td>
-                        <td style="padding: 1rem; vertical-align: top; font-weight: bold; color: var(--primary);" th:text="${'$' + comm.offeredBudget}">Budget</td>
+                        <td style="padding: 1rem; vertical-align: top; font-weight: bold; color: var(--primary);" th:text="${'₹' + comm.offeredBudget}">Budget</td>
                         <td style="padding: 1rem; vertical-align: top;">
                             <span th:text="${comm.status}" style="padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600; background-color: var(--surface-low); color: var(--secondary); border: 1px solid rgba(83, 99, 79, 0.2); display: inline-block;">Status</span>
                         </td>
@@ -40,7 +40,7 @@
                     <tr th:if="${#lists.isEmpty(commissions)}">
                         <td colspan="5" style="padding: 3rem; text-align: center; color: var(--outline);">
                             <span class="material-symbols-outlined" style="font-size: 3rem; opacity: 0.5; display: block; margin-bottom: 1rem;">inbox</span>
-                            No commissions found.
+                            <span th:text="#{profile.no_customizations}">No customizations found.</span>
                         </td>
                     </tr>
                 </tbody>
@@ -48,16 +48,16 @@
         </div>
 
         <div style="margin-top: var(--spacing-xl);">
-            <h2 class="font-serif page-title" style="text-align: left; font-size: 1.8rem;">Inventory Management</h2>
+            <h2 class="font-serif page-title" style="text-align: left; font-size: 1.8rem;" th:text="#{dashboard.inventory}">Inventory Management</h2>
             <div style="background: white; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-soft); overflow: hidden;">
                 <table style="width: 100%; border-collapse: collapse; text-align: left;">
                     <thead style="background-color: var(--surface-low); border-bottom: 2px solid var(--surface-container);">
                         <tr>
-                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Product</th>
-                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Price</th>
-                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Stock</th>
-                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Status</th>
-                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Action</th>
+                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;" th:text="#{dashboard.table_product}">Product</th>
+                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;" th:text="#{dashboard.table_price}">Price</th>
+                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;" th:text="#{dashboard.table_stock}">Stock</th>
+                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;" th:text="#{dashboard.table_status}">Status</th>
+                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;" th:text="#{dashboard.table_action}">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,18 +65,19 @@
                             <td style="padding: 1rem; vertical-align: middle;">
                                 <div style="display: flex; align-items: center; gap: 1rem;">
                                     <img th:src="${prod.imageUrl}" style="width: 40px; height: 40px; border-radius: 4px; object-fit: cover;">
-                                    <span th:text="${prod.name}" style="font-weight: 600;">Product Name</span>
+                                    <span th:text="${prod.getLocalizedName()}" style="font-weight: 600;">Product Name</span>
                                 </div>
                             </td>
-                            <td style="padding: 1rem; vertical-align: middle;" th:text="${'$' + prod.price}">$0.00</td>
+                            <td style="padding: 1rem; vertical-align: middle;" th:text="${'₹' + prod.price}">₹0.00</td>
                             <td style="padding: 1rem; vertical-align: middle;" th:text="${prod.inventoryCount ?: 0}">0</td>
                             <td style="padding: 1rem; vertical-align: middle;">
-                                <span th:if="${prod.isAvailable != false}" style="color: var(--secondary); font-weight: 600;">Available</span>
-                                <span th:if="${prod.isAvailable == false}" style="color: var(--error, #ba1a1a); font-weight: 600;">Out of Stock</span>
+                                <span th:if="${prod.isAvailable != false}" style="color: var(--secondary); font-weight: 600;" th:text="#{dashboard.available}">Available</span>
+                                <span th:if="${prod.isAvailable == false}" style="color: var(--error, #ba1a1a); font-weight: 600;" th:text="#{dashboard.out_of_stock}">Out of Stock</span>
                             </td>
                             <td style="padding: 1rem; vertical-align: middle;">
                                 <button class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;" 
-                                        th:onclick="openEditModal([[${prod.id}]], [[${prod.name}]], [[${prod.price}]], [[${prod.inventoryCount ?: 0}]], [[${prod.isAvailable ?: true}]])">
+                                        th:onclick="openEditModal([[${prod.id}]], [[${prod.getLocalizedName()}]], [[${prod.price}]], [[${prod.inventoryCount ?: 0}]], [[${prod.isAvailable ?: true}]])"
+                                        th:text="#{dashboard.table_action}">
                                     Edit
                                 </button>
                             </td>
@@ -87,51 +88,71 @@
         </div>
 
         <div style="margin-top: var(--spacing-xl);">
-            <h2 class="font-serif page-title" style="text-align: left; font-size: 1.8rem;">Upload New Product</h2>
+            <h2 class="font-serif page-title" style="text-align: left; font-size: 1.8rem;" th:text="#{dashboard.upload}">Upload New Product</h2>
             
-            <div th:if="${param.success == 'product_uploaded'}" style="background-color: var(--secondary); color: white; padding: 1rem; border-radius: var(--border-radius); margin-bottom: var(--spacing-md); text-align: center; box-shadow: var(--shadow-soft);">
-                <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 0.5rem;">check_circle</span> 
-                Product added to your catalog successfully!
-            </div>
-            <div th:if="${param.success == 'product_updated'}" style="background-color: var(--secondary); color: white; padding: 1rem; border-radius: var(--border-radius); margin-bottom: var(--spacing-md); text-align: center; box-shadow: var(--shadow-soft);">
-                <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 0.5rem;">check_circle</span> 
-                Product updated successfully!
-            </div>
-            <div th:if="${param.error}" style="background-color: var(--error, #ba1a1a); color: white; padding: 1rem; border-radius: var(--border-radius); margin-bottom: var(--spacing-md); text-align: center; box-shadow: var(--shadow-soft);">
-                <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 0.5rem;">error</span> 
-                <span th:text="${param.error == 'upload_failed' ? 'Failed to upload image.' : 'An error occurred.'}">Error</span>
-            </div>
+        <div th:if="${param.success == 'product_uploaded'}" style="background-color: var(--secondary); color: white; padding: 1rem; border-radius: var(--border-radius); margin-bottom: var(--spacing-md); text-align: center; box-shadow: var(--shadow-soft);">
+            <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 0.5rem;">check_circle</span> 
+            <span th:text="#{dashboard.upload_success}">Product added to your catalog successfully!</span>
+        </div>
+        <div th:if="${param.success == 'product_updated'}" style="background-color: var(--secondary); color: white; padding: 1rem; border-radius: var(--border-radius); margin-bottom: var(--spacing-md); text-align: center; box-shadow: var(--shadow-soft);">
+            <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 0.5rem;">check_circle</span> 
+            <span th:text="#{dashboard.update_success}">Product updated successfully!</span>
+        </div>
+        <div th:if="${param.error}" style="background-color: var(--error, #ba1a1a); color: white; padding: 1rem; border-radius: var(--border-radius); margin-bottom: var(--spacing-md); text-align: center; box-shadow: var(--shadow-soft);">
+            <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 0.5rem;">error</span> 
+            <span th:text="${#messages.msgOrNull('error.' + param.error) ?: #messages.msg('error.generic')}">Error</span>
+        </div>
 
             <form th:action="@{/artist/{id}/product/upload(id=${artist.id})}" method="post" enctype="multipart/form-data" class="form-container" style="max-width: 800px; margin: 0; background: white; padding: var(--spacing-lg); border-radius: var(--border-radius-lg); box-shadow: var(--shadow-soft);">
                 
-                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
                     <div class="form-group">
-                        <label for="name" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Product Name</label>
+                        <label for="name" style="display: block; margin-bottom: 0.5rem; font-weight: 600;" th:text="#{dashboard.table_product} + ' (EN)'">Product Name (EN)</label>
                         <input type="text" id="name" name="name" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--outline-variant); border-radius: var(--border-radius);">
                     </div>
                     <div class="form-group">
-                        <label for="price" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Price ($)</label>
-                        <input type="number" id="price" name="price" step="0.01" min="0" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--outline-variant); border-radius: var(--border-radius);">
+                        <label for="nameHi" style="display: block; margin-bottom: 0.5rem; font-weight: 600;" th:text="#{dashboard.table_product} + ' (HI)'">Product Name (HI)</label>
+                        <input type="text" id="nameHi" name="nameHi" style="width: 100%; padding: 0.75rem; border: 1px solid var(--outline-variant); border-radius: var(--border-radius);">
+                    </div>
+                    <div class="form-group">
+                        <label for="nameMr" style="display: block; margin-bottom: 0.5rem; font-weight: 600;" th:text="#{dashboard.table_product} + ' (MR)'">Product Name (MR)</label>
+                        <input type="text" id="nameMr" name="nameMr" style="width: 100%; padding: 0.75rem; border: 1px solid var(--outline-variant); border-radius: var(--border-radius);">
                     </div>
                 </div>
 
-                <div class="form-group" style="margin-bottom: 1.5rem;">
-                    <label for="inventoryCount" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Initial Stock</label>
-                    <input type="number" id="inventoryCount" name="inventoryCount" min="0" value="1" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--outline-variant); border-radius: var(--border-radius);">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                    <div class="form-group">
+                        <label for="price" style="display: block; margin-bottom: 0.5rem; font-weight: 600;" th:text="#{dashboard.table_price} + ' (₹)'">Price (₹)</label>
+                        <input type="number" id="price" name="price" step="0.01" min="0" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--outline-variant); border-radius: var(--border-radius);">
+                    </div>
+                    <div class="form-group">
+                        <label for="inventoryCount" style="display: block; margin-bottom: 0.5rem; font-weight: 600;" th:text="#{dashboard.initial_stock}">Initial Stock</label>
+                        <input type="number" id="inventoryCount" name="inventoryCount" min="0" value="1" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--outline-variant); border-radius: var(--border-radius);">
+                    </div>
                 </div>
                 
-                <div class="form-group" style="margin-bottom: 1.5rem;">
-                    <label for="description" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Description</label>
-                    <textarea id="description" name="description" rows="4" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--outline-variant); border-radius: var(--border-radius); font-family: inherit;"></textarea>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+                    <div class="form-group">
+                        <label for="description" style="display: block; margin-bottom: 0.5rem; font-weight: 600;" th:text="#{product.description} + ' (EN)'">Description (EN)</label>
+                        <textarea id="description" name="description" rows="3" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--outline-variant); border-radius: var(--border-radius); font-family: inherit;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="descriptionHi" style="display: block; margin-bottom: 0.5rem; font-weight: 600;" th:text="#{product.description} + ' (HI)'">Description (HI)</label>
+                        <textarea id="descriptionHi" name="descriptionHi" rows="3" style="width: 100%; padding: 0.75rem; border: 1px solid var(--outline-variant); border-radius: var(--border-radius); font-family: inherit;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="descriptionMr" style="display: block; margin-bottom: 0.5rem; font-weight: 600;" th:text="#{product.description} + ' (MR)'">Description (MR)</label>
+                        <textarea id="descriptionMr" name="descriptionMr" rows="3" style="width: 100%; padding: 0.75rem; border: 1px solid var(--outline-variant); border-radius: var(--border-radius); font-family: inherit;"></textarea>
+                    </div>
                 </div>
 
                 <div class="form-group" style="margin-bottom: 2rem;">
-                    <label for="image" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Product Image</label>
+                    <label for="image" style="display: block; margin-bottom: 0.5rem; font-weight: 600;" th:text="#{dashboard.product_image}">Product Image</label>
                     <input type="file" id="image" name="image" accept="image/png, image/jpeg, image/webp" required style="width: 100%; padding: 0.75rem; border: 1px dashed var(--outline); border-radius: var(--border-radius); background: var(--surface-low);">
                 </div>
 
                 <button type="submit" class="btn btn-primary" style="width: 100%;">
-                    <span class="material-symbols-outlined" style="margin-right: 0.5rem; vertical-align: middle;">upload</span> Add to Catalog
+                    <span class="material-symbols-outlined" style="margin-right: 0.5rem; vertical-align: middle;">upload</span> <span th:text="#{dashboard.add_to_catalog}">Add to Catalog</span>
                 </button>
             </form>
         </div>
@@ -139,23 +160,23 @@
         <!-- Edit Product Modal -->
         <div id="editModal" style="display:none; position:fixed; z-index:100; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5); align-items:center; justify-content:center;">
             <div style="background:white; padding:2rem; border-radius:var(--border-radius-lg); width:90%; max-width:500px; box-shadow:var(--shadow-soft);">
-                <h2 class="font-serif" id="modalTitle">Edit Product</h2>
+                <h2 class="font-serif" id="modalTitle" th:text="#{dashboard.edit_product}">Edit Product</h2>
                 <form id="editForm" method="POST" style="margin-top:1.5rem;">
                     <div class="form-group" style="margin-bottom: 1rem;">
-                        <label>Price ($)</label>
+                        <label th:text="#{dashboard.table_price} + ' (₹)'">Price (₹)</label>
                         <input type="number" name="price" id="modalPrice" step="0.01" min="0" required style="width:100%; padding:0.75rem; border:1px solid var(--outline-variant); border-radius:var(--border-radius);">
                     </div>
                     <div class="form-group" style="margin-bottom: 1rem;">
-                        <label>Stock Count</label>
+                        <label th:text="#{dashboard.table_stock}">Stock Count</label>
                         <input type="number" name="inventoryCount" id="modalStock" min="0" required style="width:100%; padding:0.75rem; border:1px solid var(--outline-variant); border-radius:var(--border-radius);">
                     </div>
                     <div class="form-group" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
                         <input type="checkbox" name="isAvailable" id="modalAvailable" style="width: 20px; height: 20px;">
-                        <label for="modalAvailable">Is Available for Sale</label>
+                        <label for="modalAvailable" th:text="#{dashboard.available}">Is Available for Sale</label>
                     </div>
                     <div style="display:flex; gap:1rem;">
-                        <button type="button" onclick="closeEditModal()" class="btn btn-outline" style="flex:1;">Cancel</button>
-                        <button type="submit" class="btn btn-primary" style="flex:1;">Save Changes</button>
+                        <button type="button" onclick="closeEditModal()" class="btn btn-outline" style="flex:1;" th:text="#{nav.back}">Cancel</button>
+                        <button type="submit" class="btn btn-primary" style="flex:1;" th:text="#{dashboard.save_changes}">Save Changes</button>
                     </div>
                 </form>
             </div>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+    <title>Monitor Products | KalaSetu Admin</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <h1 class="page-title font-serif">Product Monitoring</h1>
+        
+        <div style="background: white; padding: var(--spacing-lg); border-radius: var(--border-radius-lg); box-shadow: var(--shadow-soft);">
+            <div th:if="${products.isEmpty()}" style="padding: var(--spacing-md); border: 1px dashed var(--outline); border-radius: var(--border-radius); text-align: center; color: var(--on-surface-variant);">
+                No products found on the platform.
+            </div>
+            
+            <table th:if="${!products.isEmpty()}" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--surface-container);">
+                        <th style="padding: 1rem; text-align: left;">Product</th>
+                        <th style="padding: 1rem; text-align: left;">Artisan</th>
+                        <th style="padding: 1rem; text-align: left;">Category</th>
+                        <th style="padding: 1rem; text-align: left;">Price</th>
+                        <th style="padding: 1rem; text-align: right;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="product : ${products}" style="border-bottom: 1px solid var(--surface-container-low);">
+                        <td style="padding: 1rem; width: 30%;">
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <img th:src="${product.imageUrl}" style="width: 50px; height: 50px; border-radius: 4px; object-fit: cover;" />
+                                <strong th:text="${product.name}">Product Name</strong>
+                            </div>
+                        </td>
+                        <td style="padding: 1rem;" th:text="${product.artist.name}">Artisan</td>
+                        <td style="padding: 1rem;" th:text="${product.category.name}">Category</td>
+                        <td style="padding: 1rem; font-weight: bold; color: var(--primary);" th:text="${'₹' + product.price}">Price</td>
+                        <td style="padding: 1rem; text-align: right;">
+                            <form th:action="@{'/admin/products/delete/' + ${product.id}}" method="post">
+                                <button type="submit" class="btn btn-outline" style="color: #ba1a1a; border-color: #ba1a1a;">Remove Product</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div style="margin-top: var(--spacing-lg);">
+            <a th:href="@{/admin/dashboard}" class="btn btn-outline">&larr; Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+    <title>Admin Dashboard | KalaSetu</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <h1 class="page-title font-serif">Admin Command Center</h1>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+            <div style="background: white; padding: var(--spacing-md); border-radius: var(--border-radius); box-shadow: var(--shadow-soft); text-align: center;">
+                <h3 style="color: var(--secondary); margin-bottom: 0.5rem;">Total Users</h3>
+                <p style="font-size: 2.5rem; font-weight: bold; color: var(--primary);" th:text="${totalUsers}">0</p>
+            </div>
+            <div style="background: white; padding: var(--spacing-md); border-radius: var(--border-radius); box-shadow: var(--shadow-soft); text-align: center;">
+                <h3 style="color: var(--secondary); margin-bottom: 0.5rem;">Total Artists</h3>
+                <p style="font-size: 2.5rem; font-weight: bold; color: var(--primary);" th:text="${totalArtists}">0</p>
+            </div>
+            <div style="background: white; padding: var(--spacing-md); border-radius: var(--border-radius); box-shadow: var(--shadow-soft); text-align: center;">
+                <h3 style="color: var(--secondary); margin-bottom: 0.5rem;">Total Products</h3>
+                <p style="font-size: 2.5rem; font-weight: bold; color: var(--primary);" th:text="${totalProducts}">0</p>
+            </div>
+            <div style="background: white; padding: var(--spacing-md); border-radius: var(--border-radius); box-shadow: var(--shadow-soft); text-align: center; border: 1px solid var(--error, #ba1a1a);" th:if="${pendingComplaints > 0}">
+                <h3 style="color: #ba1a1a; margin-bottom: 0.5rem;">Pending Complaints</h3>
+                <p style="font-size: 2.5rem; font-weight: bold; color: #ba1a1a;" th:text="${pendingComplaints}">0</p>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: var(--spacing-md); align-items: flex-start;">
+            <div style="flex: 1; background: white; padding: var(--spacing-lg); border-radius: var(--border-radius-lg); box-shadow: var(--shadow-soft);">
+                <h2 class="font-serif" style="margin-bottom: var(--spacing-md);">Pending Verifications</h2>
+                <div th:if="${pendingArtists.isEmpty()}" style="padding: var(--spacing-md); border: 1px dashed var(--outline); border-radius: var(--border-radius); text-align: center; color: var(--on-surface-variant);">
+                    No artists awaiting verification.
+                </div>
+                <table th:if="${!pendingArtists.isEmpty()}" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--surface-container);">
+                            <th style="padding: 1rem; text-align: left;">Artisan</th>
+                            <th style="padding: 1rem; text-align: left;">Craft</th>
+                            <th style="padding: 1rem; text-align: right;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="artist : ${pendingArtists}" style="border-bottom: 1px solid var(--surface-container-low);">
+                            <td style="padding: 1rem;">
+                                <strong th:text="${artist.name}">Name</strong><br/>
+                                <span style="font-size: 0.85rem; color: var(--on-surface-variant);" th:text="${artist.email}">email</span>
+                            </td>
+                            <td style="padding: 1rem;" th:text="${artist.craftType}">Craft</td>
+                            <td style="padding: 1rem; text-align: right;">
+                                <a th:href="@{/admin/artists/verify}" class="btn" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Review</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="width: 300px; display: flex; flex-direction: column; gap: var(--spacing-md);">
+                <a th:href="@{/admin/artists/verify}" class="btn btn-primary" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                    <span class="material-symbols-outlined">verified_user</span> Verify Artists
+                </a>
+                <a th:href="@{/admin/products/monitor}" class="btn btn-outline" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                    <span class="material-symbols-outlined">inventory_2</span> Monitor Products
+                </a>
+                <a th:href="@{/admin/complaints}" class="btn btn-outline" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; border-color: #ba1a1a; color: #ba1a1a;" th:if="${pendingComplaints > 0}">
+                    <span class="material-symbols-outlined">report</span> View Complaints
+                </a>
+                <a th:href="@{/admin/complaints}" class="btn btn-outline" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem;" th:unless="${pendingComplaints > 0}">
+                    <span class="material-symbols-outlined">report</span> Manage Complaints
+                </a>
+                <a th:href="@{/logout}" class="btn btn-outline" style="margin-top: var(--spacing-lg); color: #ba1a1a; border-color: #ba1a1a;">
+                    Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

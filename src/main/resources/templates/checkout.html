@@ -9,76 +9,76 @@
 
     <div layout:fragment="content">
         <div style="margin-bottom: var(--spacing-sm); border-bottom: 1px solid var(--surface-container); padding-bottom: var(--spacing-sm);">
-            <a th:href="@{/store}" style="color: var(--on-surface-variant); font-size: 0.9rem;">&larr; Back to Shop</a>
+            <a th:href="@{/store}" style="color: var(--on-surface-variant); font-size: 0.9rem;">&larr; <span th:text="#{product.back_to_shop}">Back to Shop</span></a>
         </div>
 
-        <h1 class="page-title font-serif">Secure Checkout</h1>
+        <h1 class="page-title font-serif" th:text="#{checkout.title}">Secure Checkout</h1>
 
         <div class="product-detail-container" style="align-items: flex-start;">
             
             <div style="background: white; padding: var(--spacing-md); border-radius: var(--border-radius-lg); box-shadow: var(--shadow-soft);">
-                <h3 class="font-serif">Shipping Details</h3>
+                <h3 class="font-serif" th:text="#{checkout.shipping_title}">Shipping Details</h3>
                 <form action="/checkout" method="POST" style="display: flex; flex-direction: column; gap: var(--spacing-sm); margin-top: var(--spacing-sm);">
                     <input type="hidden" name="productId" th:value="${productId}" />
                     <div style="display: flex; gap: var(--spacing-sm);">
                         <div style="flex: 1;">
-                            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem;">First Name</label>
-                            <input type="text" placeholder="Jane" required />
+                            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem;" th:text="#{checkout.first_name}">First Name</label>
+                            <input type="text" th:placeholder="#{checkout.first_name}" required />
                         </div>
                         <div style="flex: 1;">
-                            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem;">Last Name</label>
-                            <input type="text" placeholder="Doe" required />
+                            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem;" th:text="#{checkout.last_name}">Last Name</label>
+                            <input type="text" th:placeholder="#{checkout.last_name}" required />
                         </div>
                     </div>
                     <div>
-                        <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem;">Address</label>
-                        <input type="text" placeholder="123 Artisan Way" required />
+                        <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem;" th:text="#{checkout.address}">Address</label>
+                        <input type="text" th:placeholder="#{checkout.address}" required />
                     </div>
                     
-                    <h3 class="font-serif" style="margin-top: var(--spacing-sm);">Payment Details</h3>
+                    <h3 class="font-serif" style="margin-top: var(--spacing-sm);" th:text="#{checkout.payment_title}">Payment Details</h3>
                     <div>
-                        <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem;">Card Number</label>
+                        <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem;" th:text="#{checkout.card_number}">Card Number</label>
                         <input type="text" placeholder="0000 0000 0000 0000" />
                     </div>
                     <div style="display: flex; gap: var(--spacing-sm);">
                         <div style="flex: 1;">
-                            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem;">Expiry</label>
+                            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem;" th:text="#{checkout.expiry}">Expiry</label>
                             <input type="text" placeholder="MM/YY" />
                         </div>
                         <div style="flex: 1;">
-                            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem;">CVC</label>
+                            <label style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.25rem;" th:text="#{checkout.cvc}">CVC</label>
                             <input type="text" placeholder="123" />
                         </div>
                     </div>
                     
-                    <button type="submit" class="btn" style="width: 100%; margin-top: var(--spacing-md);"><span class="material-symbols-outlined" style="margin-right:0.5rem">lock</span> Confirm Payment</button>
+                    <button type="submit" class="btn" style="width: 100%; margin-top: var(--spacing-md);"><span class="material-symbols-outlined" style="margin-right:0.5rem">lock</span> <span th:text="#{checkout.confirm_btn}">Confirm Payment</span></button>
                 </form>
             </div>
 
             <div style="background: var(--surface-low); padding: var(--spacing-md); border-radius: var(--border-radius-lg);">
-                <h3 class="font-serif">Order Summary</h3>
-                <p style="color: var(--on-surface-variant); font-size: 0.9rem; margin-bottom: var(--spacing-md);">Your curated items are ready.</p>
+                <h3 class="font-serif" th:text="#{checkout.order_summary}">Order Summary</h3>
+                <p style="color: var(--on-surface-variant); font-size: 0.9rem; margin-bottom: var(--spacing-md);" th:text="#{checkout.summary_desc}">Your curated items are ready.</p>
                 
                 <div style="display: flex; gap: var(--spacing-sm); border-bottom: 1px dashed var(--outline); padding-bottom: var(--spacing-sm); margin-bottom: var(--spacing-sm);">
                     <img th:src="${product.imageUrl}" style="width: 60px; height: 60px; border-radius: var(--border-radius-sm); object-fit: cover;" />
                     <div style="flex: 1;">
-                        <strong style="display: block;" th:text="${product.name}">Product Name</strong>
+                        <strong style="display: block;" th:text="${product.getLocalizedName()}">Product Name</strong>
                         <span style="font-size: 0.85rem; color: var(--secondary);" th:text="'by ' + ${product.artist.name}">by Artisan</span>
                     </div>
-                    <div style="font-weight: bold;" th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 2)}">$25.00</div>
+                    <div style="font-weight: bold;" th:text="'₹' + ${#numbers.formatDecimal(product.price, 1, 2)}">₹25.00</div>
                 </div>
                 
                 <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; color: var(--on-surface-variant);">
-                    <span>Subtotal</span>
-                    <span th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 2)}">$25.00</span>
+                    <span th:text="#{checkout.subtotal}">Subtotal</span>
+                    <span th:text="'₹' + ${#numbers.formatDecimal(product.price, 1, 2)}">₹25.00</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; color: var(--on-surface-variant);">
-                    <span>Shipping</span>
-                    <span>$0.00</span>
+                    <span th:text="#{checkout.shipping}">Shipping</span>
+                    <span>₹0.00</span>
                 </div>
                 <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.25rem; border-top: 1px solid var(--outline); padding-top: 0.5rem;">
-                    <span>Total</span>
-                    <span style="color: var(--primary);" th:text="'$' + ${#numbers.formatDecimal(product.price, 1, 2)}">$25.00</span>
+                    <span th:text="#{checkout.total}">Total</span>
+                    <span style="color: var(--primary);" th:text="'₹' + ${#numbers.formatDecimal(product.price, 1, 2)}">₹25.00</span>
                 </div>
                 
             </div>

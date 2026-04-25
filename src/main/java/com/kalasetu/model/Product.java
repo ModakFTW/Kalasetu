@@ -12,7 +12,13 @@ public class Product {
     private Long id;
 
     private String name;
+    private String nameHi;
+    private String nameMr;
+    
     private String description;
+    private String descriptionHi;
+    private String descriptionMr;
+
     private Double price;
     private String imageUrl;
 
@@ -76,12 +82,44 @@ public class Product {
         this.name = name;
     }
 
+    public String getNameHi() {
+        return nameHi;
+    }
+
+    public void setNameHi(String nameHi) {
+        this.nameHi = nameHi;
+    }
+
+    public String getNameMr() {
+        return nameMr;
+    }
+
+    public void setNameMr(String nameMr) {
+        this.nameMr = nameMr;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getDescriptionHi() {
+        return descriptionHi;
+    }
+
+    public void setDescriptionHi(String descriptionHi) {
+        this.descriptionHi = descriptionHi;
+    }
+
+    public String getDescriptionMr() {
+        return descriptionMr;
+    }
+
+    public void setDescriptionMr(String descriptionMr) {
+        this.descriptionMr = descriptionMr;
     }
 
     public Double getPrice() {
@@ -132,4 +170,18 @@ public class Product {
 
     public Boolean getIsAvailable() { return isAvailable; }
     public void setIsAvailable(Boolean isAvailable) { this.isAvailable = isAvailable; }
+
+    public String getLocalizedName() {
+        String lang = org.springframework.context.i18n.LocaleContextHolder.getLocale().getLanguage();
+        if ("hi".equals(lang) && nameHi != null && !nameHi.isEmpty()) return nameHi;
+        if ("mr".equals(lang) && nameMr != null && !nameMr.isEmpty()) return nameMr;
+        return name;
+    }
+
+    public String getLocalizedDescription() {
+        String lang = org.springframework.context.i18n.LocaleContextHolder.getLocale().getLanguage();
+        if ("hi".equals(lang) && descriptionHi != null && !descriptionHi.isEmpty()) return descriptionHi;
+        if ("mr".equals(lang) && descriptionMr != null && !descriptionMr.isEmpty()) return descriptionMr;
+        return description;
+    }
 }

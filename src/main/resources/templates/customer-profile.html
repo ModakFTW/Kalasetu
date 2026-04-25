@@ -10,41 +10,78 @@
     <div layout:fragment="content">
         <div style="max-width: 800px; margin: 0 auto;">
             
-            <h1 class="page-title font-serif" th:text="${'Profile: ' + customer.name}" style="text-align: left;">Customer Profile</h1>
+            <h1 class="page-title font-serif" th:text="#{nav.profile} + ': ' + ${customer.name}" style="text-align: left;">Customer Profile</h1>
             <p style="color: var(--on-surface-variant); margin-bottom: var(--spacing-xl);" th:text="${customer.email}">Customer Email</p>
 
             <div th:if="${param.orderSuccess}" style="background-color: var(--secondary); color: white; padding: 1rem; border-radius: var(--border-radius); margin-bottom: var(--spacing-md); text-align: center; box-shadow: var(--shadow-soft);">
                 <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 0.5rem;">check_circle</span> 
-                Your order has been placed successfully!
+                <span th:text="#{profile.order_success}">Your order has been placed successfully!</span>
+            </div>
+            
+            <div th:if="${param.success == 'commission_sent'}" style="background-color: var(--secondary); color: white; padding: 1rem; border-radius: var(--border-radius); margin-bottom: var(--spacing-md); text-align: center; box-shadow: var(--shadow-soft);">
+                <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 0.5rem;">check_circle</span> 
+                <span th:text="#{customization.sent_success}">Your customization request has been sent!</span>
             </div>
 
-            <h2 class="font-serif" style="border-bottom: 1px solid var(--outline-variant); padding-bottom: 0.5rem; margin-bottom: var(--spacing-lg);">Your Orders</h2>
+            <h2 class="font-serif" style="border-bottom: 1px solid var(--outline-variant); padding-bottom: 0.5rem; margin-bottom: var(--spacing-lg);" th:text="#{profile.orders}">Your Orders</h2>
             
             <div th:if="${#lists.isEmpty(orders)}" style="text-align: center; padding: 4rem; color: var(--outline); background: window; border-radius: var(--border-radius-lg);">
                 <span class="material-symbols-outlined" style="font-size: 4rem; opacity: 0.5; margin-bottom: 1rem; display: block;">shopping_basket</span>
-                <p style="font-size: 1.2rem;">You haven't placed any orders yet.</p>
-                <a th:href="@{/store}" class="btn btn-primary" style="margin-top: 1rem;">Shop Now</a>
+                <p style="font-size: 1.2rem;" th:text="#{profile.no_orders}">You haven't placed any orders yet.</p>
+                <a th:href="@{/store}" class="btn btn-primary" style="margin-top: 1rem;" th:text="#{profile.shop_now}">Shop Now</a>
             </div>
 
-            <div th:unless="${#lists.isEmpty(orders)}" style="background: white; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-soft); overflow: hidden;">
+            <div th:unless="${#lists.isEmpty(orders)}" style="background: white; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-soft); overflow: hidden; margin-bottom: var(--spacing-xl);">
                 <table style="width: 100%; border-collapse: collapse; text-align: left;">
                     <thead style="background-color: var(--surface-low); border-bottom: 2px solid var(--surface-container);">
                         <tr>
-                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Date</th>
-                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Product</th>
-                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Price</th>
-                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Status</th>
+                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;" th:text="#{profile.table_date}">Date</th>
+                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;" th:text="#{profile.table_product}">Product</th>
+                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;" th:text="#{profile.table_price}">Price</th>
+                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;" th:text="#{profile.table_status}">Status</th>
+                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;" th:text="#{profile.table_delivery}">Est. Delivery</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr th:each="order : ${orders}" style="border-bottom: 1px solid var(--surface-container);">
                             <td style="padding: 1rem; vertical-align: middle;" th:text="${#temporals.format(order.orderDate, 'MMM dd, yyyy HH:mm')}">Date</td>
                             <td style="padding: 1rem; vertical-align: middle; font-weight: 600;">
-                                <a th:href="@{/product/{id}(id=${order.product.id})}" th:text="${order.product.name}" style="color: inherit; text-decoration: none;">Product Name</a>
+                                <a th:href="@{/product/{id}(id=${order.product.id})}" th:text="${order.product.getLocalizedName()}" style="color: inherit; text-decoration: none;">Product Name</a>
                             </td>
-                            <td style="padding: 1rem; vertical-align: middle; font-weight: bold; color: var(--primary);" th:text="${'$' + order.product.price}">Price</td>
+                            <td style="padding: 1rem; vertical-align: middle; font-weight: bold; color: var(--primary);" th:text="${'₹' + order.product.price}">Price</td>
                             <td style="padding: 1rem; vertical-align: middle;">
                                 <span th:text="${order.status}" style="padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600; background-color: var(--surface-low); color: var(--secondary); border: 1px solid rgba(83, 99, 79, 0.2); display: inline-block;">Status</span>
+                            </td>
+                            <td style="padding: 1rem; vertical-align: middle; color: var(--on-surface-variant);" th:text="${#temporals.format(order.estimatedDeliveryDate, 'MMM dd, yyyy')}">Delivery Date</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2 class="font-serif" style="border-bottom: 1px solid var(--outline-variant); padding-bottom: 0.5rem; margin-bottom: var(--spacing-lg);" th:text="#{profile.customizations}">Your Customizations</h2>
+            
+            <div th:if="${#lists.isEmpty(commissions)}" style="text-align: center; padding: 4rem; color: var(--outline);">
+                <span class="material-symbols-outlined" style="font-size: 4rem; opacity: 0.5; margin-bottom: 1rem; display: block;">brush</span>
+                <p style="font-size: 1.2rem;" th:text="#{profile.no_customizations}">No customizations requested yet.</p>
+            </div>
+
+            <div th:unless="${#lists.isEmpty(commissions)}" style="background: white; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-soft); overflow: hidden;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead style="background-color: var(--surface-low); border-bottom: 2px solid var(--surface-container);">
+                        <tr>
+                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;" th:text="#{profile.table_artist}">Artist</th>
+                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;" th:text="#{profile.table_budget}">Budget</th>
+                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;" th:text="#{profile.table_details}">Details</th>
+                            <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;" th:text="#{profile.table_status}">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="comm : ${commissions}" style="border-bottom: 1px solid var(--surface-container);">
+                            <td style="padding: 1rem; vertical-align: middle; font-weight: 600;" th:text="${comm.artist.name}">Artist Name</td>
+                            <td style="padding: 1rem; vertical-align: middle; font-weight: bold; color: var(--primary);" th:text="${'₹' + comm.offeredBudget}">Budget</td>
+                            <td style="padding: 1rem; vertical-align: middle; color: var(--on-surface-variant);" th:text="${comm.message}">Details</td>
+                            <td style="padding: 1rem; vertical-align: middle;">
+                                <span th:text="${comm.status}" style="padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600; background-color: var(--surface-low); color: var(--secondary); border: 1px solid rgba(83, 99, 79, 0.2); display: inline-block;">Status</span>
                             </td>
                         </tr>
                     </tbody>

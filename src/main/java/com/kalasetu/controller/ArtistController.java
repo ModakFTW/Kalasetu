@@ -56,7 +56,11 @@ public class ArtistController {
     @PostMapping("/artist/{id}/product/upload")
     public String uploadProduct(@PathVariable Long id,
                                 @RequestParam("name") String name,
+                                @RequestParam(value = "nameHi", required = false) String nameHi,
+                                @RequestParam(value = "nameMr", required = false) String nameMr,
                                 @RequestParam("description") String description,
+                                @RequestParam(value = "descriptionHi", required = false) String descriptionHi,
+                                @RequestParam(value = "descriptionMr", required = false) String descriptionMr,
                                 @RequestParam("price") Double price,
                                 @RequestParam(value = "inventoryCount", defaultValue = "1") Integer inventoryCount,
                                 @RequestParam("image") MultipartFile image,
@@ -110,7 +114,11 @@ public class ArtistController {
 
         Product newProduct = new Product();
         newProduct.setName(name);
+        newProduct.setNameHi(nameHi);
+        newProduct.setNameMr(nameMr);
         newProduct.setDescription(description);
+        newProduct.setDescriptionHi(descriptionHi);
+        newProduct.setDescriptionMr(descriptionMr);
         newProduct.setPrice(price);
         newProduct.setImageUrl(imageUrl);
         newProduct.setArtist(artist);

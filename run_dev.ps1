@@ -11,7 +11,8 @@ try {
         Write-Host "System Java found."
         $javaValid = $true
     }
-} catch {
+}
+catch {
     Write-Host "System Java not found."
 }
 
@@ -50,6 +51,7 @@ Write-Host "Starting Kalasetu application using Maven Wrapper..."
 # We use the local Maven wrapper (mvnw.cmd), which completely eliminates the need for Maven to be pre-installed!
 if (Test-Path ".\mvnw.cmd") {
     .\mvnw.cmd clean spring-boot:run
-} else {
+}
+else {
     Write-Error "Maven wrapper (mvnw.cmd) not found. Please ensure the repository was fully cloned."
 }

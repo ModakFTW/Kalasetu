@@ -10,6 +10,7 @@ public class Commission {
     private Long id;
 
     private String requesterName;
+    private String requesterEmail;
     private String requesterContact;
 
     @Column(length = 1000)
@@ -27,9 +28,10 @@ public class Commission {
     public Commission() {
     }
 
-    public Commission(String requesterName, String requesterContact, String message, Double offeredBudget,
+    public Commission(String requesterName, String requesterEmail, String requesterContact, String message, Double offeredBudget,
             Artist artist) {
         this.requesterName = requesterName;
+        this.requesterEmail = requesterEmail;
         this.requesterContact = requesterContact;
         this.message = message;
         this.offeredBudget = offeredBudget;
@@ -51,6 +53,14 @@ public class Commission {
 
     public void setRequesterName(String requesterName) {
         this.requesterName = requesterName;
+    }
+
+    public String getRequesterEmail() {
+        return requesterEmail;
+    }
+
+    public void setRequesterEmail(String requesterEmail) {
+        this.requesterEmail = requesterEmail;
     }
 
     public String getRequesterContact() {

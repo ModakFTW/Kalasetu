@@ -17,7 +17,11 @@ public class Artist {
     private String name;
     private String bio;
     private String email;
+    private String phoneNumber;
+    private String craftType;
     private String profilePictureUrl;
+    private String aadhaarNumber;
+    private boolean approved = false;
 
     @OneToMany(mappedBy = "artist")
     private List<Product> catalog;
@@ -60,4 +64,16 @@ public class Artist {
     
     public String getProfilePictureUrl() { return profilePictureUrl; }
     public void setProfilePictureUrl(String profilePictureUrl) { this.profilePictureUrl = profilePictureUrl; }
+
+    public String getPhoneNumber() { return phoneNumber; }
+    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+
+    public String getCraftType() { return craftType; }
+    public void setCraftType(String craftType) { this.craftType = craftType; }
+
+    public String getAadhaarNumber() { return aadhaarNumber; }
+    public void setAadhaarNumber(String aadhaarNumber) { this.aadhaarNumber = aadhaarNumber; }
+
+    public boolean isApproved() { return approved; }
+    public void setApproved(boolean approved) { this.approved = approved; }
 }

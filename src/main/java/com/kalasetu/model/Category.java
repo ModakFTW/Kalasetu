@@ -13,6 +13,8 @@ public class Category {
     private Long id;
 
     private String name;
+    private String nameHi;
+    private String nameMr;
 
     public Category() {
     }
@@ -35,5 +37,28 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getNameHi() {
+        return nameHi;
+    }
+
+    public void setNameHi(String nameHi) {
+        this.nameHi = nameHi;
+    }
+
+    public String getNameMr() {
+        return nameMr;
+    }
+
+    public void setNameMr(String nameMr) {
+        this.nameMr = nameMr;
+    }
+
+    public String getLocalizedName() {
+        String lang = org.springframework.context.i18n.LocaleContextHolder.getLocale().getLanguage();
+        if ("hi".equals(lang) && nameHi != null && !nameHi.isEmpty()) return nameHi;
+        if ("mr".equals(lang) && nameMr != null && !nameMr.isEmpty()) return nameMr;
+        return name;
     }
 }

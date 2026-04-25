@@ -10,33 +10,33 @@
     <div layout:fragment="content" style="display: flex; justify-content: center; align-items: center; min-height: 70vh;">
         <div style="background: white; padding: var(--spacing-lg); border-radius: var(--border-radius-lg); box-shadow: var(--shadow-soft); width: 100%; max-width: 450px;">
             <div style="text-align: center; margin-bottom: var(--spacing-md);">
-                <h1 class="font-serif" style="font-size: 2.5rem; margin-bottom: 0.5rem;">Welcome Back</h1>
-                <p style="color: var(--on-surface-variant);">Login to your KalaSetu account</p>
+                <h1 class="font-serif" style="font-size: 2.5rem; margin-bottom: 0.5rem;" th:text="#{login.title_welcome}">Welcome Back</h1>
+                <p style="color: var(--on-surface-variant);" th:text="#{login.subtitle}">Login to your KalaSetu account</p>
             </div>
 
             <form action="/login" method="POST" style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
-                <div th:if="${error}" style="background-color: var(--primary); color: white; padding: 0.5rem; border-radius: var(--border-radius-sm); font-size: 0.9rem; text-align: center;" th:text="${error}"></div>
+                <div th:if="${error}" style="background-color: var(--primary); color: white; padding: 0.5rem; border-radius: var(--border-radius-sm); font-size: 0.9rem; text-align: center;" th:text="${error.startsWith('error.') ? #messages.msg(error) : error}"></div>
+                <div th:if="${param.resetSuccess}" style="background-color: #28a745; color: white; padding: 0.5rem; border-radius: var(--border-radius-sm); font-size: 0.9rem; text-align: center;">Password reset successfully!</div>
                 <div>
-                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Email Address</label>
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;" th:text="#{login.email}">Email Address</label>
                     <input type="email" name="email" placeholder="collector@example.com" required />
                 </div>
                 <div>
-                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Password</label>
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;" th:text="#{login.password}">Password</label>
                     <input type="password" name="password" placeholder="••••••••" required />
                 </div>
                 
                 <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; margin-top: 0.5rem;">
                     <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                        <input type="checkbox" style="width: auto;" /> Remember me
+                        <input type="checkbox" style="width: auto;" /> <span th:text="#{login.remember_me}">Remember me</span>
                     </label>
-                    <a th:href="@{/}" style="color: var(--primary);">Forgot Password?</a>
                 </div>
 
-                <button type="submit" class="btn" style="width: 100%; margin-top: var(--spacing-sm);">Secure Login</button>
+                <button type="submit" class="btn" style="width: 100%; margin-top: var(--spacing-sm);" th:text="#{login.btn}">Secure Login</button>
             </form>
 
             <div style="text-align: center; margin-top: var(--spacing-md); font-size: 0.9rem; color: var(--on-surface-variant);">
-                Don't have an account? <a th:href="@{/register}" style="font-weight: bold; color: var(--primary);">Create an account</a>
+                <span th:text="#{login.register_link_text}">Don't have an account?</span> <a th:href="@{/register}" style="font-weight: bold; color: var(--primary);" th:text="#{login.register_link}">Create an account</a>
             </div>
         </div>
     </div>

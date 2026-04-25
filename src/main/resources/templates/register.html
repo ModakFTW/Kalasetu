@@ -10,45 +10,79 @@
     <div layout:fragment="content" style="display: flex; justify-content: center; align-items: center; min-height: 70vh; margin: var(--spacing-lg) 0;">
         <div style="background: white; padding: var(--spacing-lg); border-radius: var(--border-radius-lg); box-shadow: var(--shadow-soft); width: 100%; max-width: 500px;">
             <div style="text-align: center; margin-bottom: var(--spacing-md);">
-                <h1 class="font-serif" style="font-size: 2.5rem; margin-bottom: 0.5rem;">Join KalaSetu</h1>
-                <p style="color: var(--on-surface-variant);">Create your account to start collecting or selling.</p>
+                <h1 class="font-serif" style="font-size: 2.5rem; margin-bottom: 0.5rem;" th:text="#{register.title}">Join KalaSetu</h1>
+                <p style="color: var(--on-surface-variant);" th:text="#{register.subtitle}">Create your account to start collecting or selling.</p>
             </div>
 
-            <form action="/register" method="POST" style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
-                <div th:if="${error}" style="background-color: var(--primary); color: white; padding: 0.5rem; border-radius: var(--border-radius-sm); font-size: 0.9rem; text-align: center;" th:text="${error}"></div>
+            <form action="/register" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: var(--spacing-sm);">
+                <div th:if="${error}" style="background-color: var(--primary); color: white; padding: 0.5rem; border-radius: var(--border-radius-sm); font-size: 0.9rem; text-align: center;" th:text="${error.startsWith('error.') ? #messages.msg(error) : error}"></div>
                 
                 <div>
-                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Full Name</label>
-                    <input type="text" name="name" placeholder="Alex Doe" required />
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;" th:text="#{register.name}">Full Name</label>
+                    <input type="text" name="name" th:placeholder="#{register.name}" required />
                 </div>
                 <div>
-                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Email Address</label>
-                    <input type="email" name="email" placeholder="alex@example.com" required />
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;" th:text="#{register.email}">Email Address</label>
+                    <input type="email" name="email" th:placeholder="#{register.email}" required />
                 </div>
                 <div>
-                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Password</label>
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;" th:text="#{register.phone}">Phone Number</label>
+                    <input type="tel" name="phoneNumber" th:placeholder="#{register.phone}" required />
+                </div>
+                <div>
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;" th:text="#{register.password}">Password</label>
                     <input type="password" name="password" placeholder="••••••••" required />
                 </div>
                 
                 <div style="margin-top: var(--spacing-sm);">
-                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;">Account Type</label>
+                    <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;" th:text="#{register.account_type}">Account Type</label>
                     <div style="display: flex; gap: var(--spacing-sm);">
                         <label style="flex: 1; border: 1px solid var(--outline); padding: 1rem; border-radius: var(--border-radius-sm); cursor: pointer; text-align: center;">
-                            <input type="radio" name="role" value="CUSTOMER" required style="width: auto; margin-right: 0.5rem;" />
-                            <strong>Customer</strong>
+                            <input type="radio" name="role" value="CUSTOMER" required onclick="toggleArtistFields(false)" style="width: auto; margin-right: 0.5rem;" />
+                            <strong th:text="#{register.role_customer}">Customer</strong>
                         </label>
                         <label style="flex: 1; border: 1px solid var(--outline); padding: 1rem; border-radius: var(--border-radius-sm); cursor: pointer; text-align: center;">
-                            <input type="radio" name="role" value="ARTIST" style="width: auto; margin-right: 0.5rem;" />
-                            <strong>Artist</strong>
+                            <input type="radio" name="role" value="ARTIST" onclick="toggleArtistFields(true)" style="width: auto; margin-right: 0.5rem;" />
+                            <strong th:text="#{register.role_artist}">Artist</strong>
                         </label>
                     </div>
                 </div>
 
-                <button type="submit" class="btn" style="width: 100%; margin-top: var(--spacing-sm);">Create Account</button>
+                <!-- Artist Specific Fields -->
+                <div id="artist-fields" style="display: none; flex-direction: column; gap: var(--spacing-sm); margin-top: var(--spacing-sm); padding: 1rem; background: var(--surface-low); border-radius: var(--border-radius);">
+                    <div>
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;" th:text="#{register.craft_type}">Craft Type</label>
+                        <input type="text" name="craftType" th:placeholder="#{register.craft_type}" />
+                    </div>
+                    <div>
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;" th:text="#{register.aadhaar}">Aadhaar Number</label>
+                        <input type="text" name="aadhaarNumber" placeholder="1234 5678 9012" maxlength="14" />
+                    </div>
+                    <div>
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;" th:text="#{register.profile_photo}">Profile Photo</label>
+                        <input type="file" name="profilePhoto" accept="image/*" />
+                    </div>
+                </div>
+
+                <script>
+                    function toggleArtistFields(show) {
+                        document.getElementById('artist-fields').style.display = show ? 'flex' : 'none';
+                        const inputs = document.querySelectorAll('#artist-fields input');
+                        inputs.forEach(input => {
+                            if (show && (input.name === 'craftType' || input.name === 'aadhaarNumber')) {
+                                input.required = true;
+                            } else {
+                                input.required = false;
+                            }
+                        });
+                    }
+                </script>
+
+                <button type="submit" class="btn" style="width: 100%; margin-top: var(--spacing-sm);" th:text="#{register.btn}">Create Account</button>
             </form>
 
             <div style="text-align: center; margin-top: var(--spacing-md); font-size: 0.9rem; color: var(--on-surface-variant);">
-                Already have an account? <a th:href="@{/login}" style="font-weight: bold; color: var(--primary);">Login here</a>
+                <span th:text="#{register.login_link_text}">Already have an account?</span> <a th:href="@{/login}" style="font-weight: bold; color: var(--primary);" th:text="#{register.login_link}">Login here</a>
             </div>
         </div>
     </div>

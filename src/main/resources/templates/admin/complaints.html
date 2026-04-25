@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+
+<head>
+    <title>Manage Complaints | Admin | KalaSetu</title>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+
+        <h1 class="page-title font-serif">Customer & Artist Complaints</h1>
+
+        <div th:if="${param.success}" style="background-color: var(--secondary); color: white; padding: 1rem; border-radius: var(--border-radius); margin-bottom: var(--spacing-md); text-align: center; box-shadow: var(--shadow-soft);">
+            <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 0.5rem;">check_circle</span> 
+            Complaint status updated successfully!
+        </div>
+
+        <div style="background: white; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-soft); overflow: hidden;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead style="background-color: var(--surface-low); border-bottom: 2px solid var(--surface-container);">
+                    <tr>
+                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Date</th>
+                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">User</th>
+                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Subject</th>
+                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600; width: 40%;">Message</th>
+                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Status</th>
+                        <th style="padding: 1rem; color: var(--on-surface-variant); font-weight: 600;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="complaint : ${complaints}" style="border-bottom: 1px solid var(--surface-container);">
+                        <td style="padding: 1rem; vertical-align: top;" th:text="${#temporals.format(complaint.createdAt, 'MMM dd, HH:mm')}">Date</td>
+                        <td style="padding: 1rem; vertical-align: top;">
+                            <div style="font-weight: 600;" th:text="${complaint.user.name}">Name</div>
+                            <div style="font-size: 0.8rem; color: var(--on-surface-variant);" th:text="${complaint.user.email}">Email</div>
+                            <div style="font-size: 0.75rem; color: var(--secondary); font-weight: bold;" th:text="${complaint.user.role}">Role</div>
+                        </td>
+                        <td style="padding: 1rem; vertical-align: top; font-weight: 600;" th:text="${complaint.subject}">Subject</td>
+                        <td style="padding: 1rem; vertical-align: top; font-size: 0.9rem; color: var(--on-surface-variant);" th:text="${complaint.message}">Message</td>
+                        <td style="padding: 1rem; vertical-align: top;">
+                            <span th:text="${complaint.status}" 
+                                  th:style="'padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; font-weight: 600; ' + 
+                                            (${complaint.status == 'PENDING'} ? 'background: #fff8e1; color: #f57f17;' : 
+                                             (${complaint.status == 'RESOLVED'} ? 'background: #e8f5e9; color: #2e7d32;' : 'background: #f5f5f5; color: #616161;'))">Status</span>
+                        </td>
+                        <td style="padding: 1rem; vertical-align: top;">
+                            <div th:if="${complaint.status == 'PENDING'}" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <form th:action="@{/admin/complaints/resolve/{id}(id=${complaint.id})}" method="post">
+                                    <button type="submit" class="btn btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.75rem; width: 100%;">Resolve</button>
+                                </form>
+                                <form th:action="@{/admin/complaints/dismiss/{id}(id=${complaint.id})}" method="post">
+                                    <button type="submit" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.75rem; width: 100%;">Dismiss</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(complaints)}">
+                        <td colspan="6" style="padding: 4rem; text-align: center; color: var(--outline);">
+                            <span class="material-symbols-outlined" style="font-size: 4rem; opacity: 0.5; margin-bottom: 1rem; display: block;">check_circle</span>
+                            No complaints filed yet.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin-top: var(--spacing-lg);">
+            <a th:href="@{/admin/dashboard}" class="btn btn-outline"><span class="material-symbols-outlined" style="margin-right: 0.5rem;">arrow_back</span> Back to Dashboard</a>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+<head>
+    <title>Verify Artists | KalaSetu Admin</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <h1 class="page-title font-serif">Artisan Verification</h1>
+        
+        <div style="background: white; padding: var(--spacing-lg); border-radius: var(--border-radius-lg); box-shadow: var(--shadow-soft);">
+            <div th:if="${artists.isEmpty()}" style="padding: var(--spacing-md); border: 1px dashed var(--outline); border-radius: var(--border-radius); text-align: center; color: var(--on-surface-variant);">
+                No pending artisan requests.
+            </div>
+            
+            <table th:if="${!artists.isEmpty()}" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--surface-container);">
+                        <th style="padding: 1rem; text-align: left;">Details</th>
+                        <th style="padding: 1rem; text-align: left;">Bio</th>
+                        <th style="padding: 1rem; text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="artist : ${artists}" style="border-bottom: 1px solid var(--surface-container-low);">
+                        <td style="padding: 1rem; width: 30%;">
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <img th:src="${artist.profilePictureUrl != null ? artist.profilePictureUrl : '/images/placeholder-artist.jpg'}" 
+                                     style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" />
+                                <div>
+                                    <strong th:text="${artist.name}" style="display: block;">Name</strong>
+                                    <span style="font-size: 0.85rem; color: var(--on-surface-variant);" th:text="${artist.craftType}">Craft</span><br/>
+                                    <span style="font-size: 0.8rem; color: var(--secondary);" th:text="${artist.email}">email</span><br/>
+                                    <span style="font-size: 0.8rem; color: var(--primary); font-weight: bold;" th:text="${'Aadhaar: ' + artist.aadhaarNumber}">Aadhaar</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="padding: 1rem;">
+                            <p style="font-size: 0.9rem; color: var(--on-surface-variant);" th:text="${artist.bio}">Bio</p>
+                        </td>
+                        <td style="padding: 1rem; text-align: right;">
+                            <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                                <form th:action="@{'/admin/artists/approve/' + ${artist.id}}" method="post">
+                                    <button type="submit" class="btn" style="background: #386a20; color: white;">Approve</button>
+                                </form>
+                                <form th:action="@{'/admin/artists/reject/' + ${artist.id}}" method="post">
+                                    <button type="submit" class="btn btn-outline" style="color: #ba1a1a; border-color: #ba1a1a;">Reject</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div style="margin-top: var(--spacing-lg);">
+            <a th:href="@{/admin/dashboard}" class="btn btn-outline">&larr; Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

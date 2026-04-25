@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 public class CustomerOrder {
@@ -24,6 +25,7 @@ public class CustomerOrder {
     private Product product;
 
     private LocalDateTime orderDate;
+    private LocalDate estimatedDeliveryDate;
     private String status;
 
     public CustomerOrder() {}
@@ -49,4 +51,7 @@ public class CustomerOrder {
     
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public LocalDate getEstimatedDeliveryDate() { return estimatedDeliveryDate; }
+    public void setEstimatedDeliveryDate(LocalDate estimatedDeliveryDate) { this.estimatedDeliveryDate = estimatedDeliveryDate; }
 }

@@ -21,21 +21,50 @@
                     <img th:src="@{/images/kalasetu logo final.png}" alt="KalaSetu Logo" style="height: 60px; border-radius: 4px;" />
                 </a>
                 <div class="nav-links">
-                    <a th:href="@{/store}">Explore Canvas</a>
-                    <a th:href="@{/artists}">Meet Artisans</a>
-                    <a th:href="@{/our-story}">Our Story</a>
+                    <a th:href="@{/store}" th:text="#{nav.store}">Explore Canvas</a>
+                    <div class="dropdown" style="display: inline-block; position: relative;">
+                        <a href="javascript:void(0)" th:text="#{store.filter_category}" style="display: flex; align-items: center; gap: 0.25rem;">Categories <span class="material-symbols-outlined" style="font-size: 1rem;">expand_more</span></a>
+                        <div class="dropdown-content" style="display: none; position: absolute; background-color: white; min-width: 160px; box-shadow: var(--shadow-soft); z-index: 100; border-radius: var(--border-radius); padding: 0.5rem 0;">
+                            <a th:href="@{/store}" style="color: var(--on-surface); padding: 0.5rem 1rem; display: block; font-size: 0.9rem;" th:text="#{store.all_categories}">All</a>
+                            <a th:each="cat : ${allCategories}" 
+                               th:href="@{/store(categoryId=${cat.id})}" 
+                               th:text="${cat.getLocalizedName()}" 
+                               style="color: var(--on-surface); padding: 0.5rem 1rem; display: block; font-size: 0.9rem;">Category Name</a>
+                        </div>
+                    </div>
+                    <style>
+                        .dropdown:hover .dropdown-content { display: block !important; }
+                        .dropdown-content a:hover { background-color: var(--surface-low); }
+                    </style>
+                    <a th:href="@{/artists}" th:text="#{nav.artisans}">Meet Artisans</a>
+                    <a th:href="@{/our-story}" th:text="#{nav.our_story}">Our Story</a>
+                    <a th:if="${session.user != null}" th:href="@{/complaint/new}" th:text="#{complaint.title}" style="font-size: 0.85rem; opacity: 0.8;">Complaints</a>
                 </div>
-                <div class="nav-actions" th:if="${session.user == null}">
-                    <a th:href="@{/login}" class="btn" style="padding: 0.5rem 1.5rem; font-size: 0.95rem;">Join</a>
-                </div>
-                <div class="nav-actions" th:if="${session.user != null}" style="display: flex; align-items: center; gap: 1rem;">
-                    <span style="font-weight: 600; font-size: 0.9rem; color: var(--on-surface-variant);" th:text="${'Welcome, ' + session.user.name}"></span>
+
+                <div class="nav-actions" style="display: flex; align-items: center; gap: 1rem;">
+                    <!-- Language Switcher -->
+                    <div class="lang-switcher" style="display: flex; gap: 0.5rem; font-size: 0.8rem;">
+                        <a th:href="@{/(lang=en)}" style="text-decoration: none; color: inherit; font-weight: bold;">EN</a>
+                        <span style="opacity: 0.5;">|</span>
+                        <a th:href="@{/(lang=hi)}" style="text-decoration: none; color: inherit; font-weight: bold;">HI</a>
+                        <span style="opacity: 0.5;">|</span>
+                        <a th:href="@{/(lang=mr)}" style="text-decoration: none; color: inherit; font-weight: bold;">MR</a>
+                    </div>
+
+                    <div th:if="${session.user == null}">
+                        <a th:href="@{/login}" class="btn" style="padding: 0.5rem 1.5rem; font-size: 0.95rem;" th:text="#{nav.login}">Join</a>
+                    </div>
                     
-                    <!-- If artist, connect to dashboard -->
-                    <a th:if="${session.user.role == T(com.kalasetu.model.UserRole).ARTIST and session.artistId != null}" th:href="@{/commission/artist/{id}(id=${session.artistId})}" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Dashboard</a>
-                    <a th:if="${session.user.role == T(com.kalasetu.model.UserRole).CUSTOMER}" th:href="@{/profile}" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;">Dashboard</a>
-                    
-                    <a th:href="@{/logout}" class="btn" style="padding: 0.5rem 1rem; font-size: 0.85rem; background: var(--secondary);">Logout</a>
+                    <div th:if="${session.user != null}" style="display: flex; align-items: center; gap: 1rem;">
+                        <span style="font-weight: 600; font-size: 0.9rem; color: var(--on-surface-variant);" th:text="${session.user.name}"></span>
+                        
+                        <!-- If artist, connect to dashboard -->
+                        <a th:if="${session.user.role == T(com.kalasetu.model.UserRole).ARTIST and session.artistId != null}" th:href="@{/commission/artist/{id}(id=${session.artistId})}" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;" th:text="#{nav.dashboard}">Dashboard</a>
+                        <a th:if="${session.user.role == T(com.kalasetu.model.UserRole).CUSTOMER}" th:href="@{/profile}" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;" th:text="#{nav.dashboard}">Dashboard</a>
+                        <a th:if="${session.user.role == T(com.kalasetu.model.UserRole).ADMIN}" th:href="@{/admin/dashboard}" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;" th:text="#{nav.dashboard}">Admin Panel</a>
+                        
+                        <a th:href="@{/logout}" class="btn" style="padding: 0.5rem 1rem; font-size: 0.85rem; background: var(--secondary);" th:text="#{nav.logout}">Logout</a>
+                    </div>
                 </div>
             </nav>
         </div>

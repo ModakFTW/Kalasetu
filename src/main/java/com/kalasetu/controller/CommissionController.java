@@ -6,6 +6,7 @@ import com.kalasetu.model.CommissionStatus;
 import com.kalasetu.repository.ArtistRepository;
 import com.kalasetu.repository.CommissionRepository;
 import com.kalasetu.repository.ProductRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,11 +30,20 @@ public class CommissionController {
     }
 
     @GetMapping("/request/{artistId}")
-    public String showRequestForm(@PathVariable long artistId, Model model) {
+    public String showRequestForm(@PathVariable long artistId, HttpSession session, Model model) {
         Optional<Artist> artist = artistRepository.findById(artistId);
         if (artist.isPresent()) {
             model.addAttribute("artist", artist.get());
-            model.addAttribute("commission", new Commission());
+            
+            Commission commission = new Commission();
+            com.kalasetu.model.User user = (com.kalasetu.model.User) session.getAttribute("user");
+            if (user != null) {
+                commission.setRequesterName(user.getName());
+                commission.setRequesterEmail(user.getEmail());
+                commission.setRequesterContact(user.getPhoneNumber()); // Use phone as contact
+            }
+            
+            model.addAttribute("commission", commission);
             return "commission-form";
         } else {
             return "redirect:/";
@@ -47,7 +57,7 @@ public class CommissionController {
             commission.setArtist(artist.get());
             commission.setStatus(CommissionStatus.REQUESTED);
             commissionRepository.save(commission);
-            return "redirect:/commission/artist/" + artistId + "?success";
+            return "redirect:/profile?success=commission_sent";
         }
         return "redirect:/";
     }
