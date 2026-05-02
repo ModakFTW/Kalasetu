@@ -21,6 +21,7 @@ public class Artist {
     private String craftType;
     private String profilePictureUrl;
     private String aadhaarNumber;
+    private String aadhaarCardImageUrl;
     private boolean approved = false;
 
     @OneToMany(mappedBy = "artist")
@@ -73,6 +74,9 @@ public class Artist {
 
     public String getAadhaarNumber() { return aadhaarNumber; }
     public void setAadhaarNumber(String aadhaarNumber) { this.aadhaarNumber = aadhaarNumber; }
+
+    public String getAadhaarCardImageUrl() { return aadhaarCardImageUrl; }
+    public void setAadhaarCardImageUrl(String aadhaarCardImageUrl) { this.aadhaarCardImageUrl = aadhaarCardImageUrl; }
 
     public boolean isApproved() { return approved; }
     public void setApproved(boolean approved) { this.approved = approved; }

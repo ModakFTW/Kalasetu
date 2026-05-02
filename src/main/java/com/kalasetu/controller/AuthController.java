@@ -76,15 +76,29 @@ public class AuthController {
                                 @RequestParam(required = false) String craftType,
                                 @RequestParam(required = false) String aadhaarNumber,
                                 @RequestParam(required = false) MultipartFile profilePhoto,
+                                @RequestParam(required = false) MultipartFile aadhaarCardImage,
                                 HttpSession session, Model model) {
         if (userRepository.findByEmail(email).isPresent()) {
             model.addAttribute("error", "error.email_registered");
             return "register";
         }
 
+        if (phoneNumber == null || !phoneNumber.matches("[6789][0-9]{9}")) {
+            model.addAttribute("error", "error.invalid_phone");
+            return "register";
+        }
+
         if (role == UserRole.ARTIST) {
             if (aadhaarNumber == null || !AadhaarValidator.validateAadhaar(aadhaarNumber)) {
                 model.addAttribute("error", "error.invalid_aadhaar");
+                return "register";
+            }
+            if (aadhaarCardImage == null || aadhaarCardImage.isEmpty()) {
+                model.addAttribute("error", "error.empty_file");
+                return "register";
+            }
+            if (craftType == null || craftType.isBlank()) {
+                model.addAttribute("error", "error.invalid_craft");
                 return "register";
             }
         }
@@ -114,6 +128,20 @@ public class AuthController {
                 }
             } else {
                 newArtist.setProfilePictureUrl("/images/placeholder-artist.jpg");
+            }
+
+            if (aadhaarCardImage != null && !aadhaarCardImage.isEmpty()) {
+                try {
+                    String fileName = UUID.randomUUID().toString() + "_id_" + aadhaarCardImage.getOriginalFilename();
+                    Path uploadPath = Paths.get("src/main/resources/static/images/artists/");
+                    if (!Files.exists(uploadPath)) {
+                        Files.createDirectories(uploadPath);
+                    }
+                    Files.copy(aadhaarCardImage.getInputStream(), uploadPath.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
+                    newArtist.setAadhaarCardImageUrl("/images/artists/" + fileName);
+                } catch (IOException e) {
+                    System.err.println("Failed to save Aadhaar card image: " + e.getMessage());
+                }
             }
             
             artistRepository.save(newArtist);

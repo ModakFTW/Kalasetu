@@ -27,7 +27,7 @@
                 </div>
                 <div>
                     <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;" th:text="#{register.phone}">Phone Number</label>
-                    <input type="tel" name="phoneNumber" th:placeholder="#{register.phone}" required />
+                    <input type="tel" name="phoneNumber" th:placeholder="#{register.phone}" required maxlength="10" pattern="[6789][0-9]{9}" title="Phone number must be 10 digits and start with 6, 7, 8 or 9" />
                 </div>
                 <div>
                     <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;" th:text="#{register.password}">Password</label>
@@ -56,11 +56,15 @@
                     </div>
                     <div>
                         <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;" th:text="#{register.aadhaar}">Aadhaar Number</label>
-                        <input type="text" name="aadhaarNumber" placeholder="1234 5678 9012" maxlength="14" />
+                        <input type="text" name="aadhaarNumber" placeholder="1234 5678 9012" maxlength="14" pattern="\d{4}\s?\d{4}\s?\d{4}" title="Aadhaar must be 12 digits" />
                     </div>
                     <div>
                         <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;" th:text="#{register.profile_photo}">Profile Photo</label>
                         <input type="file" name="profilePhoto" accept="image/*" />
+                    </div>
+                    <div>
+                        <label style="display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem;" th:text="#{register.aadhaar_card}">Aadhaar Card Photo</label>
+                        <input type="file" name="aadhaarCardImage" accept="image/*" />
                     </div>
                 </div>
 
@@ -69,7 +73,7 @@
                         document.getElementById('artist-fields').style.display = show ? 'flex' : 'none';
                         const inputs = document.querySelectorAll('#artist-fields input');
                         inputs.forEach(input => {
-                            if (show && (input.name === 'craftType' || input.name === 'aadhaarNumber')) {
+                            if (show && (input.name === 'craftType' || input.name === 'aadhaarNumber' || input.name === 'aadhaarCardImage')) {
                                 input.required = true;
                             } else {
                                 input.required = false;

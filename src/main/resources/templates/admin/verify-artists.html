@@ -30,7 +30,13 @@
                                     <strong th:text="${artist.name}" style="display: block;">Name</strong>
                                     <span style="font-size: 0.85rem; color: var(--on-surface-variant);" th:text="${artist.craftType}">Craft</span><br/>
                                     <span style="font-size: 0.8rem; color: var(--secondary);" th:text="${artist.email}">email</span><br/>
-                                    <span style="font-size: 0.8rem; color: var(--primary); font-weight: bold;" th:text="${'Aadhaar: ' + artist.aadhaarNumber}">Aadhaar</span>
+                                    <span style="font-size: 0.8rem; color: var(--primary); font-weight: bold;" th:text="${'Aadhaar: ' + artist.aadhaarNumber}">Aadhaar</span><br/>
+                                    <a th:if="${artist.aadhaarCardImageUrl != null}" 
+                                       th:href="${artist.aadhaarCardImageUrl}" 
+                                       target="_blank" 
+                                       style="font-size: 0.8rem; color: var(--secondary); text-decoration: underline; font-weight: bold;">
+                                       View ID Card
+                                    </a>
                                 </div>
                             </div>
                         </td>

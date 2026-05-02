@@ -66,6 +66,13 @@
             </div>
         </div>
 
+        <div th:if="${products.isEmpty()}" style="padding: 4rem; text-align: center; background: var(--surface-low); border-radius: var(--border-radius-lg); border: 2px dashed var(--outline-variant); margin-top: var(--spacing-lg);">
+            <span class="material-symbols-outlined" style="font-size: 4rem; color: var(--on-surface-variant); opacity: 0.5; margin-bottom: 1rem;">inventory_2</span>
+            <h2 class="font-serif" style="margin-bottom: 0.5rem;" th:text="#{store.no_products_title}">No Artworks Found</h2>
+            <p style="color: var(--on-surface-variant);" th:text="#{store.no_products_subtitle}">We couldn't find any products in this category. Try exploring our other collections!</p>
+            <a th:href="@{/store}" class="btn" style="margin-top: 1.5rem;" th:text="#{store.view_all}">View All Products</a>
+        </div>
+
     </div>
 
 </body>
